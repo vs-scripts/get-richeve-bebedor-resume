@@ -1,0 +1,154 @@
+|<------------------------------->[ BEGIN-CRFCF ]<------------------------------->|
+
+NOTICE: UNAUTHORIZED MODIFICATION OF THIS DOCUMENT IS EXPRESSLY PROHIBITED. EDITING
+PRIVILEGES ARE EXCLUSIVELY RESERVED FOR THE AUTHOR, DESIGNATED CONTRIBUTORS, AND
+AUTHORIZED ARTIFICIAL INTELLIGENCE AGENTS. DOCUMENT INTEGRITY IS SECURED BY A
+CRYPTOGRAPHIC CHECKSUM; AUTOMATED VERIFICATION SCRIPTS ARE EMPLOYED TO DETECT AND
+PREVENT UNAUTHORIZED ALTERATIONS.
+
+0.  METADATA:
+
+    - RFC:      CONCISE-RFC-000000
+    - GROUP:    VS-SCRIPTS
+    - TITLE:    CONCISE LOG FORMAT
+    - ACRONYM:  CLOGF
+    - AUTHOR:   RICHEVE BEBEDOR <richeve.bebedor+vs-scripts@gmail.com>
+    - CATEGORY: SPECIFICATION
+    - STATUS:   DRAFT
+    - VERSION:  000000 (0.0.0)
+    - CREATED:  2026-01-19
+    - CHECKSUM: <SHA-256>
+
+1.  Summary:
+
+    This document defines the concise log format specification for logging in any
+    project. It ensures uniformity, clarity, and machine-parsable structure across
+    all log entries.
+
+2.  Permission:
+
+    NOTICE: PERMISSION TO USE, MODIFY, COPY, AND/OR DISTRIBUTE THIS DOCUMENT AND/OR
+    REPOSITORY IS GRANTED UNDER THE TERMS OF THE LICENSE AGREEMENT SPECIFIED IN THE
+    LICENSE FILE. PLEASE REFER TO THE LICENSE FILE FOR DETAILS.
+
+3.  Contents:
+
+    0.  METADATA ........................................................... 009
+    1.  Summary ............................................................ 022
+    2.  Permission ......................................................... 028
+    3.  Contents ........................................................... 034
+    4.  Document Status .................................................... 046
+    5.  Normative Language ................................................. 057
+    6.  Naming Conventions ................................................. 071
+    7.  Structure .......................................................... 076
+    8.  Compliance ......................................................... 354
+
+4.  Document Status:
+
+    - This document is a DRAFT repository-level RFC.
+    - It is not an Internet Standards Track specification.
+    - It is intended to enforce,
+
+        - uniformity,
+        - clarity,
+        - conciseness,
+        - and machine-parsable
+
+      structure across all log entries.
+
+5.  Normative Language:
+
+    - The key words,
+
+        - MUST,
+        - MUST NOT,
+        - SHOULD,
+        - and SHOULD NOT
+
+      in this document SHOULD follow RFC-2119 and RFC-8174.
+    - This document MUST NOT use MAY.
+
+6.  Naming Conventions:
+
+    - This document is named concise-log-format.help.
+    - It is an exception to the naming conventions as it is a help file.
+
+7.  Structure:
+
+    - The concise log format MUST follow this structure:
+
+        # DTS LVL SCP MSG REF
+
+    - DTS:
+
+        - ISO 8601 standard date and time stamp in this format,
+
+            <YYYY-MM-DDTHH:MM:SS.ssZ>
+
+    - LVL:
+
+        - Single character log level (D/I/W/E/X)
+        - D: Debug
+
+            - Verbose mode output
+            - White foreground color MUST be applied for chromatic
+              representation if enabled.
+
+        - I: Information
+
+            - Refers to normal operation messages.
+            - Dark green foreground color MUST be applied for chromatic
+              representation if enabled.
+
+        - W: Warning
+
+            - Refers to allowable behaviors but with possible unexpected outcomes.
+            - Dark yellow foreground color MUST be applied for chromatic
+              representation if enabled.
+
+        - E: Error
+
+            - Refers to actor and code level errors
+            - Red foreground color MUST be applied for chromatic
+              representation if enabled.
+
+        - X: Exception
+
+            - Refers to out of scope issues.
+            - These are not errors.
+            - Dark red foreground color MUST be applied for chromatic
+              representation if enabled.
+
+    - SCP:
+
+        - Log scope is the parent and child scope in this format, PARENT-CHILD
+
+    - MSG:
+
+        - Log message
+
+    - REF:
+
+        - ULID reference in this format,
+
+            `urn:cla:<parent-scope>:<child-scope>:<5-character-reference>`
+
+        - The 5 character reference is the lowercased alphanumeric hash sum of
+          <# DTS LVL SCP MSG>.
+
+    Example:
+
+        # 2024-01-15T05:55:00.00Z I DATA-ACCOUNTS Cannot add account data
+        # 2024-01-15T05:55:00.00Z I DATA-ACCOUNTS urn:cla:data:accounts:2efgh
+
+    - MSG and REF MUST be grouped as one.
+    - The maximum number of characters per log entry line MUST be 83.
+    - If the number of characters for <# DTS LVL SCP MSG REF> exceeds 83 then it
+      MUST be divided into multiple lines but preserving the <# DTS LVL SCP>
+
+8.  Compliance:
+
+    - All log entries MUST follow the concise log format specification.
+    - All artificial intelligent agents MUST respect this format.
+
+|<------------------------------->[ ENDED-CRFCF ]<------------------------------->|

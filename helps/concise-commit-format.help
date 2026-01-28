@@ -1,0 +1,165 @@
+|<------------------------------->[ BEGIN-CRFCF ]<------------------------------->|
+
+NOTICE: UNAUTHORIZED MODIFICATION OF THIS DOCUMENT IS EXPRESSLY PROHIBITED. EDITING
+PRIVILEGES ARE EXCLUSIVELY RESERVED FOR THE AUTHOR, DESIGNATED CONTRIBUTORS, AND
+AUTHORIZED ARTIFICIAL INTELLIGENCE AGENTS. DOCUMENT INTEGRITY IS SECURED BY A
+CRYPTOGRAPHIC CHECKSUM; AUTOMATED VERIFICATION SCRIPTS ARE EMPLOYED TO DETECT AND
+PREVENT UNAUTHORIZED ALTERATIONS.
+
+0.  METADATA:
+
+    - RFC:      CONCISE-RFC-000000
+    - GROUP:    VS-SCRIPTS
+    - TITLE:    CONCISE COMMIT FORMAT
+    - ACRONYM:  CCMTF
+    - AUTHOR:   RICHEVE BEBEDOR <richeve.bebedor+vs-scripts@gmail.com>
+    - CATEGORY: SPECIFICATION
+    - STATUS:   DRAFT
+    - VERSION:  000000 (0.0.0)
+    - CREATED:  2026-01-20
+    - CHECKSUM: <SHA-256>
+
+1.  Summary:
+
+    This document provides guidance on creating compliant commit messages
+    following the repository's concise commit format. It explains the structure,
+    rules, and best practices for crafting commits that pass validation.
+
+2.  Permission:
+
+    NOTICE: PERMISSION TO USE, MODIFY, COPY, AND/OR DISTRIBUTE THIS DOCUMENT
+    AND/OR REPOSITORY IS GRANTED UNDER THE TERMS OF THE LICENSE AGREEMENT
+    SPECIFIED IN THE LICENSE FILE. PLEASE REFER TO THE LICENSE FILE FOR DETAILS.
+
+3.  Contents:
+
+    0.  METADATA ........................................................... 009
+    1.  Summary ............................................................ 022
+    2.  Permission ......................................................... 028
+    3.  Contents ........................................................... 034
+    4.  Document Status .................................................... 046
+    5.  Commit Structure ................................................... 057
+    6.  Header Format ...................................................... 071
+    7.  Body Format ........................................................ 088
+    8.  Examples ........................................................... 110
+
+4.  Document Status:
+
+    - This document is a DRAFT specification guide.
+    - It provides practical guidance for creating compliant commits.
+    - It supplements the .gitmessage template and commitlint configuration.
+
+5.  Commit Structure:
+
+    All commits MUST follow this structure:
+
+    - Header line (mandatory)
+    - Blank line
+    - Body (exactly 5 numbered lines)
+    - No footer or additional content
+
+    The entire commit MUST NOT exceed 83 characters per line.
+
+6.  Header Format:
+
+    The header MUST follow this pattern:
+
+        <type>(<scope>): <subject>
+
+    Rules for each component:
+
+    - type: One of: specs, issue, tests, helps, break
+      - MUST be lowercase
+      - MUST be exactly 5 characters (padded if needed)
+      - specs: Changes to todo/ directory specifications
+      - issue: Changes outside todo/, tests/, helps/ directories
+      - tests: Changes to tests/ directory
+      - helps: Changes to helps/ directory
+      - break: Changes to VERSION file only
+
+    - scope: File or directory name
+      - MUST be lowercase
+      - MUST be concise and descriptive
+      - Examples: format, rules, gitmessage, commitlint
+
+    - subject: Imperative description of change
+      - MUST be lowercase
+      - MUST NOT end with period
+      - MUST be concise and specific
+      - Examples: update documentation, fix validation, add helper
+
+    - Total header length MUST NOT exceed 83 characters
+
+7.  Body Format:
+
+    The body MUST contain exactly 5 numbered lines, one sentence each:
+
+    1. file: <relative/path/to/file>
+       - The exact path of the file being modified
+       - MUST match the staged file
+       - Example: helps/concise-commit-format.help
+
+    2. change: <what changed>
+       - Describe the specific modification made
+       - Be concrete and measurable
+       - Example: added commit structure section
+
+    3. reason: <why it changed>
+       - Explain the motivation or rationale
+       - Connect to repository goals or issues
+       - Example: clarify commit format requirements
+
+    4. impact: <risk or side effects>
+       - Identify potential consequences
+       - Note any breaking changes
+       - Example: no impact, informational only
+
+    5. verify: <how this was verified>
+       - Describe validation or testing performed
+       - Example: manual review against FORMAT spec
+
+    Each line MUST NOT exceed 83 characters.
+
+8.  Examples:
+
+    Example 1: Help file creation
+
+        specs(helps): add concise commit format guide
+
+        1. file: helps/concise-commit-format.help
+        2. change: created new help file with commit guidelines
+        3. reason: provide clear guidance for contributors
+        4. impact: no impact, informational documentation
+        5. verify: reviewed against FORMAT specification
+
+    Example 2: Configuration update
+
+        issue(commitlint): update commit validation rules
+
+        1. file: commitlint.config.mjs
+        2. change: added new scope validation pattern
+        3. reason: enforce consistent scope naming
+        4. impact: existing commits remain valid
+        5. verify: tested with sample commits
+
+    Example 3: Test addition
+
+        tests(format): add format compliance tests
+
+        1. file: tests/format-compliance.test.js
+        2. change: added 15 new test cases
+        3. reason: validate FORMAT specification adherence
+        4. impact: no impact, new tests only
+        5. verify: all tests passing locally
+
+    Example 4: Rules update
+
+        issue(rules): clarify rule 08 line length requirement
+
+        1. file: RULES
+        2. change: expanded explanation of 83 character limit
+        3. reason: reduce ambiguity in rule interpretation
+        4. impact: no impact, clarification only
+        5. verify: reviewed with FORMAT specification
+
+|<------------------------------->[ ENDED-CRFCF ]<------------------------------->|

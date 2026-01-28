@@ -1,0 +1,341 @@
+|<------------------------------->[ BEGIN-CRFCF ]<------------------------------->|
+
+NOTICE: UNAUTHORIZED MODIFICATION OF THIS DOCUMENT IS EXPRESSLY PROHIBITED. EDITING
+PRIVILEGES ARE EXCLUSIVELY RESERVED FOR THE AUTHOR, DESIGNATED CONTRIBUTORS, AND
+AUTHORIZED ARTIFICIAL INTELLIGENCE AGENTS. DOCUMENT INTEGRITY IS SECURED BY A
+CRYPTOGRAPHIC CHECKSUM; AUTOMATED VERIFICATION SCRIPTS ARE EMPLOYED TO DETECT AND
+PREVENT UNAUTHORIZED ALTERATIONS.
+
+0.  METADATA:
+
+    - RFC:      CONCISE-RFC-000000
+    - GROUP:    VS-SCRIPTS
+    - TITLE:    AGENT COMMIT PROMPT FLOW
+    - ACRONYM:  AGCPF
+    - AUTHOR:   RICHEVE BEBEDOR <richeve.bebedor+vs-scripts@gmail.com>
+    - CATEGORY: SPECIFICATION
+    - STATUS:   DRAFT
+    - VERSION:  000000 (0.0.0)
+    - CREATED:  2026-01-20
+    - CHECKSUM: <SHA-256>
+
+1.  Summary:
+
+    This document provides guidance for AI agents and contributors on creating
+    compliant commit prompts. It explains the structure, requirements, and best
+    practices for crafting prompts that generate valid commits following the
+    repository's concise commit format specification.
+
+2.  Permission:
+
+    NOTICE: PERMISSION TO USE, MODIFY, COPY, AND/OR DISTRIBUTE THIS DOCUMENT
+    AND/OR REPOSITORY IS GRANTED UNDER THE TERMS OF THE LICENSE AGREEMENT
+    SPECIFIED IN THE LICENSE FILE. PLEASE REFER TO THE LICENSE FILE FOR DETAILS.
+
+3.  Contents:
+
+    0.  METADATA ........................................................... 009
+    1.  Summary ............................................................ 022
+    2.  Permission ......................................................... 028
+    3.  Contents ........................................................... 034
+    4.  Document Status .................................................... 046
+    5.  Protocol Overview .................................................. 057
+    6.  Phase Execution Guide .............................................. 071
+    7.  AI Agent Decision Tree ............................................. 088
+    8.  Common Scenarios ................................................... 110
+    9.  Validation Checklist ............................................... 125
+
+4.  Document Status:
+
+    - This document is a DRAFT specification guide.
+    - It explains the commit protocol flow and decision logic.
+    - It supplements templates/agent-commit-prompt.template
+      (the executable protocol).
+    - It references helps/concise-commit-format.help (the format specification).
+    - Developers copy the template and provide it to AI agents.
+    - AI agents read this guide to understand the protocol flow.
+    - This document is advisory and MUST NOT override 5LAWS, RULES,
+      FORMAT, or the executable commit protocol.
+
+5.  Protocol Overview:
+
+    The commit protocol is a five-phase workflow that ensures atomic, compliant
+    commits. Each phase has a specific purpose and decision point:
+
+    - Phase 0: Establish authority and read all governing documents
+    - Phase 1: Inspect repository state and enumerate changes
+    - Phase 2: Plan commits atomically (one file per commit)
+    - Phase 3: Execute commits according to the plan
+    - Phase 4: Validate each commit for compliance
+    - Phase 5: Push only after all validation passes
+
+    The protocol is designed to prevent batching of unrelated changes and ensure
+    every commit follows the concise commit format specification.
+
+6.  Phase Execution Guide:
+
+    6.1 Phase 0 — Authority & Preconditions
+
+        Purpose: Establish that the AI agent has read and understands all
+        governing documents before proceeding.
+
+        Why this phase exists:
+        - Prevents misinterpretation of rules
+        - Ensures consistency across all commits
+        - Establishes a clear authority hierarchy
+
+        AI agent decision logic:
+        - Read 5LAWS first (overrides all other rules)
+        - Read RULES second (repository-level constraints)
+        - Read FORMAT third (document structure standards)
+        - Read concise-commit-format.help fourth (commit message format)
+        - Read templates/agent-commit-prompt.template
+        - Use this document to resolve procedural or flow ambiguity
+        - If any rule is ambiguous, conflicting, or incomplete:
+            - Attempt resolution using this flow guide
+            - Do NOT infer intent or create new rules
+            - If ambiguity remains unresolved, STOP
+            - Request clarification from the developer
+        - Proceed only when no unresolved ambiguity exists
+
+        Success criteria:
+        - All governing documents have been read
+        - No unresolved ambiguities or conflicts remain
+        - Agent is ready to proceed to Phase 1
+
+    6.2 Phase 1 — State Inspection
+
+        Purpose: Enumerate all repository changes so the agent knows exactly
+        what files need to be committed.
+
+        Why this phase exists:
+        - Prevents accidental omission of files
+        - Provides a clear baseline for planning
+        - Allows developer to review what will be committed
+
+        AI agent decision logic:
+        - Execute: git status --short
+        - View changes with: git --no-pager diff
+        - Do NOT use interactive diff tools or pagers
+        - Parse output into three categories:
+            - Modified files (M prefix)
+            - Added/untracked files (? prefix)
+            - Deleted files (D prefix)
+        - Output this list verbatim before proceeding
+        - Do NOT analyze, group, or normalize in this phase
+        - If repository state is unclear (merge conflicts, detached HEAD):
+            - STOP and request clarification from the developer
+
+        Success criteria:
+        - All changed files are enumerated
+        - Repository state is unambiguous
+        - Agent may proceed to Phase 2
+
+    6.3 Phase 2 — Commit Planning
+
+        Purpose: Create an atomic commit plan where each file is committed
+        separately with a compliant commit message.
+
+        Why this phase exists:
+        - Ensures one file per commit (RULE 11)
+        - Prevents batching of unrelated changes
+        - Allows review before execution
+        - Catches format violations early
+
+        AI agent decision logic:
+        - Select exactly one file from Phase 1 for the current plan
+        - Batched commits are never allowed
+        - Determine commit header and body using the gitmessage template
+        - Ensure commit type is one of: specs, issue, tests, helps, break
+        - Verify header length ≤ 83 characters
+        - Verify body has exactly 5 numbered lines
+        - Verify each body line ≤ 83 characters
+        - Output the complete commit plan before execution
+        - If any rule or format violation is detected:
+            - STOP and report the issue
+            - Do NOT auto-correct or infer intent
+
+        Self-correction (mandatory):
+        - If more than one file is staged or planned, STOP and self-correct
+        - git restore --staged .
+        - git add <single-file-path>
+        - Restart from Phase 1 with exactly one planned file
+        - Do NOT ask the developer to choose a file
+
+        Success criteria:
+        - One commit per file
+        - All commits comply with RULES and format
+        - Agent may proceed to Phase 3
+
+    6.4 Phase 3 — Execution
+
+        Purpose: Create commits exactly as defined in the approved plan.
+
+        Why this phase exists:
+        - Ensures execution matches the reviewed plan
+        - Prevents silent deviations
+        - Provides a clear failure boundary
+
+        AI agent decision logic:
+        - Stage exactly one file per commit
+        - Create commit using the planned message
+        - Use stdin to preserve header/body line breaks:
+
+            - PowerShell (Windows):
+
+                $commitMsg = @'
+                <type>(<scope>): <subject>
+
+                1. file: <path>
+                2. change: <what-changed>
+                3. reason: <why>
+                4. impact: <impact>
+                5. verify: <how-verified>
+                '@
+                $commitMsg | git commit -F -
+
+            - POSIX shell (macOS/Linux):
+
+                git commit -F - <<'EOF'
+                <type>(<scope>): <subject>
+
+                1. file: <path>
+                2. change: <what-changed>
+                3. reason: <why>
+                4. impact: <impact>
+                5. verify: <how-verified>
+                EOF
+
+        - Do NOT modify files during execution
+        - If any violation occurs:
+            - STOP immediately
+            - Report the violation
+            - Do NOT attempt remediation
+
+        Success criteria:
+        - Commits match the approved plan
+        - No violations occurred
+
+    6.5 Phase 4 — Verification
+
+        Purpose: Validate commits before push.
+
+        Why this phase exists:
+        - Prevents invalid commits from reaching the repository
+        - Enforces strict compliance
+
+        AI agent decision logic:
+        - When inspecting commits, use: git --no-pager show --name-only <hash>
+        - Do NOT run git diff or git show without --no-pager
+        - Verify the correct file was committed
+        - Verify commit scope matches the file
+        - Verify commit header length ≤ 83 characters
+        - Verify commit body has exactly 5 numbered lines
+        - Verify each body line ≤ 83 characters
+        - If any verification fails:
+            - Do NOT push
+            - Report failure immediately
+
+        Success criteria:
+        - All commits pass validation
+
+    6.6 Phase 5 — Push & Termination
+
+        Purpose: Persist commits and terminate cleanly.
+
+        Why this phase exists:
+        - Ensures commits are published
+        - Confirms no uncommitted changes remain
+
+        AI agent decision logic:
+        - Push commits only after all verification passes
+        - Re-check repository status
+        - If changes remain:
+            - Restart from Phase 1 and repeat all phases
+            - Continue cycling until the repository is clean
+            - Do NOT terminate early while changes remain
+        - If repository is clean:
+            - Protocol TERMINATES SUCCESSFULLY
+
+7.  AI Agent Decision Tree:
+
+    START
+      ↓
+    Phase 0: Read documents
+      ├─ Ambiguity resolved internally? → Continue
+      ├─ Ambiguity unresolved? → STOP, request clarification
+      ↓
+    Phase 1: Inspect repository
+      ├─ State unclear? → STOP
+      └─ State clear? → Continue
+      ↓
+    Phase 2: Plan commits
+      ├─ Violation? → STOP
+      └─ Plan valid? → Continue
+      ↓
+    Phase 3: Execute commits
+      ├─ Violation? → STOP
+      └─ Success? → Continue
+      ↓
+    Phase 4: Verify commits
+      ├─ Failure? → STOP
+      └─ Pass? → Continue
+      ↓
+    Phase 5: Push & terminate
+
+8.  Common Scenarios:
+
+    8.1 Scenario: Developer provides template without changes
+
+        - Phase 0: Read documents
+        - Phase 1: git status shows no changes
+        - Decision: No commits needed, terminate successfully
+
+    8.2 Scenario: Multiple files changed
+
+        - Phase 0: Read documents
+        - Phase 1: Enumerate all changed files
+        - Phase 2: STOP and self-correct (no author question)
+        - Action: git restore --staged ., git add <single-file-path>
+        - Phase 1: Restart with only one planned file
+        - Phase 3-5: Execute, verify, push that single-file commit
+        - Repeat Phase 1-5 until no changes remain
+
+    8.3 Scenario: Format violation detected in Phase 2
+
+        - Phase 2: Commit header exceeds 83 characters
+        - Decision: STOP, report violation
+        - Action: Request developer to clarify or adjust scope
+
+    8.4 Scenario: Verification fails in Phase 4
+
+        - Phase 4: Commit body has 4 lines instead of 5
+        - Decision: Do NOT push
+        - Action: Report failure, request developer review
+
+9.  Validation Checklist:
+
+    Before executing the protocol, verify:
+
+    - [ ] Developer has provided the templates/agent-commit-prompt.template
+    - [ ] All files to be committed are identified
+    - [ ] Each file will be committed separately (atomic)
+    - [ ] Commit type is one of: specs, issue, tests, helps, break
+    - [ ] Commit scope is lowercase and descriptive
+    - [ ] Commit subject is lowercase with no trailing period
+    - [ ] Commit header does not exceed 83 characters
+    - [ ] Commit body has exactly 5 numbered lines
+    - [ ] Each body line does not exceed 83 characters
+    - [ ] Body line 1 references the staged file by path
+    - [ ] Body line 2 describes what changed
+    - [ ] Body line 3 explains why it changed
+    - [ ] Body line 4 identifies impact or side effects
+    - [ ] Body line 5 describes verification method
+    - [ ] No --no-verify flag will be used
+    - [ ] Protocol phases will be followed in order
+    - [ ] State inspection will be output before commits
+    - [ ] Commit plan will be output before execution
+    - [ ] Validation will occur after each commit
+    - [ ] Push will occur only after all validation passes
+
+|<------------------------------->[ ENDED-CRFCF ]<------------------------------->|

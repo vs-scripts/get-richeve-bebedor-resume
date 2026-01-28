@@ -1,0 +1,31 @@
+# RULE 00: MUST read and respect the ./5LAWS file.
+
+# RULE 01: MUST NOT evade any rule or protocol defined in this file.
+# RULE 02: MUST NOT alter these rules or protocols without author consent.
+# RULE 03: MUST NOT create new rules or protocols to override or evade.
+# RULE 04: MUST NOT change configurations to bypass these rules or protocols.
+# RULE 05: MUST obtain author consent before making any changes.
+
+# RULE 06: MUST always create a task list with check list.
+# RULE 07: MUST read and SHOULD follow the ./FORMAT file if applicable.
+# RULE 08: Each entry line MUST have a maximum of 83 characters.
+# RULE 09: Each file MUST have a maximum of 997 entry lines.
+# RULE 10: MUST read and refer to the ./helps/ directory for relevant help file.
+
+# RULE 11: A commit MUST have a maximum of 1 file.
+# RULE 12: Commit type MUST be one of: specs, issue, tests, helps, break.
+# RULE 13: Commit scope MUST always be in lowercase.
+# RULE 14: Commit subject MUST be lowercase, filled, no trailing period.
+# RULE 15: Commit header MUST NOT exceed 83 characters.
+# RULE 16: Commit body MUST never be empty.
+# RULE 17: Each commit body line MUST NOT exceed 83 characters.
+# RULE 18: Commit body MUST reference the staged file by path.
+# RULE 19: MUST NOT use --no-verify flag with any git operations.
+# RULE 20: MUST NOT use --hard or --mixed flags with any git operations.
+
+# RULE 21: MUST NOT modify ./VERSION file.
+# RULE 22: MUST NOT modify ./ORIGIN file.
+# RULE 23: MUST NOT modify ./EMAIL file.
+# RULE 24: MUST NOT modify ./AUTHOR file.
+
+# RULE 99: MUST create a check list and review rule compliance.

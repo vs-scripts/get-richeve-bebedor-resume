@@ -1,0 +1,36 @@
+* text=auto eol=lf
+
+.editorconfig text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.prettierignore text eol=lf
+
+5LAWS text eol=lf
+AUTHOR text eol=lf
+CHANGELOG text eol=lf
+CONTRIBUTING text eol=lf
+CONTRIBUTORS text eol=lf
+EMAIL text eol=lf
+FLOW text eol=lf
+FORMAT text eol=lf
+INDEX text eol=lf
+LICENSE text eol=lf
+METADATA text eol=lf
+ORIGIN text eol=lf
+PRIVACY text eol=lf
+README text eol=lf
+REFERENCES text eol=lf
+SECURITY text eol=lf
+VERSION text eol=lf
+WEBSITE text eol=lf
+
+*.ps1 text eol=lf
+*.sh text eol=lf
+*.json text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.bash text eol=lf
+*.zig text eol=lf
+*.ts text eol=lf
+*.todo text eol=lf
+*.help text eol=lf

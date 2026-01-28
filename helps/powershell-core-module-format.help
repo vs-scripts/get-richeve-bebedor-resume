@@ -1,0 +1,811 @@
+|<------------------------------->[ BEGIN-CRFCF ]<------------------------------->|
+
+NOTICE: UNAUTHORIZED MODIFICATION OF THIS DOCUMENT IS EXPRESSLY PROHIBITED. EDITING
+PRIVILEGES ARE EXCLUSIVELY RESERVED FOR THE AUTHOR, DESIGNATED CONTRIBUTORS, AND
+AUTHORIZED ARTIFICIAL INTELLIGENCE AGENTS. DOCUMENT INTEGRITY IS SECURED BY A
+CRYPTOGRAPHIC CHECKSUM; AUTOMATED VERIFICATION SCRIPTS ARE EMPLOYED TO DETECT AND
+PREVENT UNAUTHORIZED ALTERATIONS.
+
+0.  METADATA:
+
+    - RFC:      CONCISE-RFC-000000
+    - GROUP:    VS-SCRIPTS
+    - TITLE:    POWERSHELL CORE MODULE FORMAT
+    - ACRONYM:  PWCMF
+    - AUTHOR:   Richeve Bebedor <richeve.bebedor+vs-scripts@gmail.com>
+    - CATEGORY: SPECIFICATION
+    - STATUS:   DRAFT
+    - VERSION:  000000 (0.0.0)
+    - CREATED:  2026-01-26
+    - CHECKSUM: <SHA-256>
+
+1.  Summary:
+
+    This document defines the standardized format, conventions, and structure
+    for reusable PowerShell core modules that provide foundational functions
+    for scripts and other modules. All core modules MUST follow these patterns
+    to ensure consistency, maintainability, and adherence to SOLID principles
+    while remaining concise, helpful, and humane.
+
+2.  Permission:
+
+    NOTICE: PERMISSION TO USE, MODIFY, COPY, AND/OR DISTRIBUTE THIS DOCUMENT
+    AND/OR REPOSITORY IS GRANTED UNDER THE TERMS OF THE LICENSE AGREEMENT
+    SPECIFIED IN THE LICENSE FILE. PLEASE REFER TO THE LICENSE FILE FOR DETAILS.
+
+3.  Contents:
+
+    0.  METADATA ........................................................... 001
+    1.  Summary ............................................................ 015
+    2.  Permission ......................................................... 021
+    3.  Contents ........................................................... 027
+    4.  Document Status .................................................... 035
+    5.  Normative Language ................................................. 041
+    6.  Naming Conventions ................................................. 049
+    7.  Goals and Principles ............................................... 055
+    8.  Core Module Structure .............................................. 065
+    9.  Compliance ......................................................... 415
+
+4.  Document Status:
+
+    - This document is a DRAFT specification for PowerShell core module
+      standards.
+    - It defines mandatory conventions for all core modules in this
+      repository.
+    - It is intended to enforce consistency, clarity, and SOLID principles.
+
+5.  Normative Language:
+
+    - The key words,
+
+        - MUST,
+        - MUST NOT,
+        - SHOULD,
+        - and SHOULD NOT
+
+      in this document SHOULD follow RFC-2119 and RFC-8174.
+    - This document MUST NOT use MAY.
+    - The key word "MUST" denotes "required".
+    - The key word "SHOULD" denotes "optional".
+
+6.  Naming Conventions:
+
+    - PowerShell core module file names MUST use lowercase with hyphens.
+    - PowerShell core module file names MUST be descriptive and concise.
+    - Function names MUST use PascalCase with approved PowerShell verbs.
+    - Variable names MUST use camelCase with descriptive full names.
+    - Boolean variables MUST use prefixes: is, has, should, can.
+
+7.  Goals and Principles:
+
+    - Strictly preserve overall logic and purpose.
+    - Follow latest PowerShell standards and conventions.
+    - Produce self-documenting code.
+    - Eliminate abbreviations, shortened names, and single-character variables.
+    - Prevent side effects and scope creep.
+    - Respect SOLID principles.
+    - Strict adherence to Single Responsibility principle.
+    - Avoid unnecessary complexity.
+    - Remain concise, helpful, and humane.
+
+8.  Core Module Structure:
+
+8.1 Module Purpose
+
+    - Core modules provide foundational functions used by scripts and other
+      modules.
+    - Core modules MUST NOT have side effects at import time.
+    - Core modules MUST be designed for reusability across multiple scripts.
+    - Core modules MUST follow the PSM1 module format specification.
+
+8.2 Core Module Categories
+
+    - Core modules are organized by function category:
+
+    8.2.1 Initialization Functions (All Contexts)
+
+        - Initialize-ScriptEnvironment: Sets PowerShell preferences
+        - Assert-WindowsPlatform: Validates Windows platform
+        - Test-IsInteractivePowerShell: Checks for interactive session
+        - Invoke-PowerShellCoreTransition: Transitions to pwsh if needed
+        - Assert-PowerShellVersionStrict: Enforces exact pwsh version
+
+    8.2.2 Elevation Functions (Elevated Scripts Only)
+
+        - Test-IsAdministrator: Checks for administrative privileges
+        - Invoke-ElevationRequest: Requests elevation via UAC
+
+8.3 Module Metadata
+
+    - Core modules MUST include comprehensive documentation:
+
+        <#
+        .SYNOPSIS
+            Brief one-line description of what the module provides.
+
+        .DESCRIPTION
+            Detailed explanation of the module's purpose, what functions it
+            provides, and any important context about its operation. For
+            powershell-core, this includes initialization, platform validation,
+            and elevation handling functions. Logging functionality is provided
+            by the separate concise-log.psm1 module.
+
+        .NOTES
+            Author: [Author Name]
+            Version: 0.0.0
+            Last Modified: [Date]
+            Platform: Windows only
+            Requirements: pwsh 7.5.4
+            Dependencies: concise-log.psm1
+
+        .EXAMPLE
+            # Example: Non-elevated script structure
+            Import-Module -Name concise-log
+            Import-Module -Name powershell-core
+
+            Initialize-ScriptEnvironment
+            Assert-WindowsPlatform
+            Invoke-PowerShellCoreTransition
+            Assert-PowerShellVersionStrict
+
+            # Example: Elevated script structure
+            Import-Module -Name concise-log
+            Import-Module -Name powershell-core
+
+            Initialize-ScriptEnvironment
+            Assert-WindowsPlatform
+            Invoke-PowerShellCoreTransition
+            Assert-PowerShellVersionStrict
+
+            if (-not (Test-IsAdministrator)) {
+                Invoke-ElevationRequest
+            }
+
+        .EXIT CODES
+            0 - Success
+            1 - Failure (with error message)
+        #>
+
+8.4 Manifest File Requirements
+
+    - Core modules MUST have a corresponding .psd1 manifest file.
+    - Manifest file name MUST match module name: module-name.psm1 and
+      module-name.psd1.
+    - Manifest MUST declare ModuleVersion with semantic versioning.
+    - Manifest MUST declare Author with contact information.
+    - Manifest MUST declare Description with clear module purpose.
+    - Manifest MUST declare FunctionsToExport with all public functions.
+    - Manifest MUST declare PowerShellVersion requirement 7.5.4.
+    - Manifest MUST declare RootModule pointing to .psm1 file.
+
+8.5 Core Module Structure Requirements
+
+    - Core modules MUST NOT declare CmdletBinding at script level.
+    - Core modules MUST NOT declare parameters at script level.
+    - Core modules MUST NOT execute any code at import time.
+    - Core modules MUST NOT call functions during import.
+    - Core modules MUST NOT perform initialization or validation.
+    - Core modules MUST include Set-StrictMode -Version Latest.
+    - Core modules MUST use #region and #endregion for code organization.
+    - Core modules MUST export public functions via Export-ModuleMember.
+
+8.6 Function Documentation
+
+    - All functions MUST include comprehensive documentation placed directly inside
+      the function body as shown in the example below:
+
+        function Initialize-ScriptEnvironment {
+            <#
+            .SYNOPSIS
+                Sets up PowerShell preferences for consistent behavior.
+
+            .DESCRIPTION
+                Initializes PowerShell environment by setting StrictMode,
+                ErrorActionPreference, and other preferences for consistent
+                script execution.
+
+            .OUTPUTS
+                None. Sets global preferences.
+
+            .EXAMPLE
+                Initialize-ScriptEnvironment
+                Sets up PowerShell preferences.
+
+            .NOTES
+                This function MUST be called early in script execution.
+            #>
+            [CmdletBinding()]
+            param()
+
+            # Implementation
+        }
+
+8.7 Variable Naming Conventions
+
+    - No single-character variables: Use $index not $i, $temporaryValue not $x
+    - No abbreviations: Use $repositoryRoot not $repo, $configuration not
+      $config
+    - Descriptive names: $isAdministrator not $admin, $windowsCapability not
+      $cap
+    - Boolean prefixes: Use $is, $has, $should, $can
+    - Scope prefix for script-level: $script:VerbosePreference not
+      $VerbosePreference
+
+8.8 Path Handling
+
+    - All path operations MUST use -LiteralPath parameter to avoid
+      interpretation of special characters:
+
+        if (Test-Path -LiteralPath $filePath) {
+            $content = Get-Content -LiteralPath $filePath
+            Set-Content -LiteralPath $destinationPath -Value $content
+        }
+
+8.9 Command Execution
+
+    - Dynamic command execution MUST use the call operator &:
+
+        $nodeVersion = & node --version
+        $gitRoot = & git rev-parse --show-toplevel
+
+8.10 Validation and Assertions
+
+    - Use validation attributes and assertion functions:
+
+        # Parameter validation
+        [ValidateNotNullOrEmpty()]
+        [ValidateScript({ Test-Path -LiteralPath $_ })]
+        [string]$FilePath
+
+        # Assertion functions
+        function Assert-CommandExists {
+            [CmdletBinding()]
+            param(
+                [Parameter(Mandatory = $true)]
+                [ValidateNotNullOrEmpty()]
+                [string]$CommandName
+            )
+
+            $command = Get-Command -Name $CommandName `
+                -ErrorAction SilentlyContinue
+            if (-not $command) {
+                throw "Required command not found: $CommandName"
+            }
+        }
+
+8.11 No Side Effects
+
+    - Functions MUST NOT modify global state unless explicitly documented:
+
+        # BAD: Modifies global environment
+        function Set-GlobalPath {
+            $env:PATH = "C:\NewPath;$env:PATH"  # Side effect!
+        }
+
+        # GOOD: Returns value, caller decides to apply
+        function Get-UpdatedPath {
+            [CmdletBinding()]
+            param(
+                [Parameter(Mandatory = $true)]
+                [string]$NewPathEntry
+            )
+
+            return "$NewPathEntry;$env:PATH"
+        }
+
+        # Caller applies the change
+        $updatedPath = Get-UpdatedPath -NewPathEntry "C:\NewPath"
+        $env:PATH = $updatedPath
+
+8.12 SOLID Principles Application
+
+8.12.1 Single Responsibility
+
+    - Each function MUST have one clear purpose:
+
+        # Good: Single responsibility
+        function Test-IsAdministrator { }
+        function Get-RepositoryRoot { }
+
+        # Bad: Multiple responsibilities
+        function CheckAndElevate { }  # Does two things
+
+8.12.2 Open-Closed
+
+    - Functions MUST be open for extension via parameters, closed for
+      modification:
+
+        function Write-FormattedMessage {
+            [CmdletBinding()]
+            param(
+                [Parameter(Mandatory = $true)]
+                [string]$Message,
+
+                [Parameter(Mandatory = $false)]
+                [ConsoleColor]$ForegroundColor = [ConsoleColor]::Cyan
+            )
+            # Implementation
+        }
+
+8.12.3 Liskov Substitution
+
+    - Functions MUST follow consistent contracts:
+
+        # All Get-* functions return the same type
+        function Get-RepositoryRoot { [string] }
+        function Get-ConfigurationPath { [string] }
+
+8.12.4 Interface Segregation
+
+    - Functions MUST accept only necessary parameters:
+
+        # Good: Only required parameters
+        function Initialize-Environment {
+            param([string]$RepositoryRoot)
+        }
+
+        # Bad: Accepts unnecessary parameters
+        function Initialize-Environment {
+            param([string]$RepositoryRoot, [string]$Unused1)
+        }
+
+8.12.5 Dependency Inversion
+
+    - Functions MUST depend on abstractions, not concrete implementations:
+
+        # Good: Accepts command name as parameter
+        function Invoke-Command {
+            param([string]$CommandName)
+            & $CommandName
+        }
+
+        # Bad: Hardcoded dependency
+        function Invoke-Git {
+            & git rev-parse --show-toplevel
+        }
+
+8.13 Code Region Folding
+
+    - All core modules MUST use #region and #endregion comments to organize
+      code into collapsible sections in VS Code.
+    - Regions improve readability and navigation in longer modules.
+    - Region names MUST be descriptive and match the section purpose.
+
+8.13.1 Region Organization Pattern
+
+    #region Public Functions
+
+    function Public-Function-One {
+        # Implementation
+    }
+
+    function Public-Function-Two {
+        # Implementation
+    }
+
+    #endregion
+
+    #region Private Functions
+
+    function Private-Helper {
+        # Implementation
+    }
+
+    #endregion
+
+8.13.2 Region Naming Conventions
+
+    - Region names MUST be Title Case with spaces
+    - Region names MUST be concise but descriptive
+    - Common region names:
+
+        #region Public Functions
+        #region Private Functions
+        #region Helper Functions
+        #region Configuration
+
+8.14 Core Module Structure Template
+
+    <#
+    .SYNOPSIS
+        Brief description of module purpose.
+
+    .DESCRIPTION
+        Detailed description of what this module provides and its key
+        functions.
+
+    .NOTES
+        Author: [Author Name]
+        Version: 0.0.0
+        Last Modified: [Date]
+        Platform: Windows only
+        Requirements: pwsh 7.5.4
+    #>
+
+    Set-StrictMode -Version Latest
+
+    #region Public Functions
+
+    function Initialize-ScriptEnvironment {
+        <#
+        .SYNOPSIS
+            Sets up PowerShell preferences for consistent behavior.
+
+        .DESCRIPTION
+            Initializes PowerShell environment by setting StrictMode,
+            ErrorActionPreference, and other preferences.
+
+        .OUTPUTS
+            None. Sets global preferences.
+
+        .EXAMPLE
+            Initialize-ScriptEnvironment
+            Sets up PowerShell preferences.
+        #>
+        [CmdletBinding()]
+        param()
+
+        # Implementation
+    }
+
+    #endregion
+
+    #region Private Functions
+
+    function Private-Helper {
+        [CmdletBinding()]
+        param()
+
+        # Implementation
+    }
+
+    #endregion
+
+    # Export public functions
+    Export-ModuleMember -Function @(
+        'Initialize-ScriptEnvironment'
+    )
+
+8.15 Core Module Function Documentation Template
+
+    function Function-Name {
+        <#
+        .SYNOPSIS
+            One-line description of what the function does.
+
+        .DESCRIPTION
+            Detailed explanation of the function's purpose, behavior, and
+            any important context about its operation.
+
+        .PARAMETER ParameterName
+            Description of the parameter, its type, and expected values.
+
+        .PARAMETER AnotherParameter
+            Description of another parameter.
+
+        .OUTPUTS
+            [ReturnType] Description of what the function returns.
+
+        .EXAMPLE
+            Function-Name -ParameterName "value"
+            Description of what this example does.
+
+        .EXAMPLE
+            Function-Name -ParameterName "value" -AnotherParameter "other"
+            Description of another usage example.
+
+        .NOTES
+            Author: [Author Name]
+            Version: 0.0.0
+            Any important notes about the function.
+
+        .LINK
+            https://learn.microsoft.com/en-us/powershell/module/
+        #>
+        [CmdletBinding()]
+        param(
+            [Parameter(Mandatory = $true)]
+            [ValidateNotNullOrEmpty()]
+            [string]$ParameterName,
+
+            [Parameter(Mandatory = $false)]
+            [string]$AnotherParameter = "default"
+        )
+
+        # Implementation
+    }
+
+8.16 Core Module Manifest Template
+
+    @{
+        RootModule           = 'module-name.psm1'
+        ModuleVersion        = '0.0.0'
+        GUID                 = '00000000-0000-0000-0000-000000000000'
+        Author               = 'Author Name'
+        CompanyName          = 'Company Name'
+        Copyright            = '(c) 2026 Author Name. All rights reserved.'
+        Description          = 'Brief description of module purpose.'
+        PowerShellVersion    = '7.5.4'
+        FunctionsToExport    = @(
+            'Initialize-ScriptEnvironment'
+            'Assert-WindowsPlatform'
+        )
+        PrivateData          = @{
+            PSData           = @{
+                Tags         = @('core', 'module')
+                ProjectUri   = 'https://github.com/example/project'
+                LicenseUri   = 'https://github.com/example/project/LICENSE'
+            }
+        }
+    }
+
+8.17 Core Module Export Patterns
+
+    - All public functions MUST be explicitly exported:
+
+        Export-ModuleMember -Function @(
+            'Initialize-ScriptEnvironment'
+            'Assert-WindowsPlatform'
+            'Test-IsAdministrator'
+        )
+
+    - Private helper functions MUST NOT be exported.
+    - Only functions listed in Export-ModuleMember are accessible to
+      importing scripts.
+
+8.18 Core Module Import Patterns
+
+    - Calling scripts MUST import core modules using Import-Module with
+      absolute paths.
+    - Module paths MUST be converted to absolute paths using
+      [System.IO.Path]::GetFullPath() to ensure reliable module loading.
+    - Use this exact pattern:
+
+        $scriptPath = $PSScriptRoot
+        $conciseLogPath = Join-Path $scriptPath 'concise-log.psm1'
+        $coreModulePath = Join-Path $scriptPath 'powershell-core.psm1'
+
+        # Convert to absolute paths (REQUIRED)
+        $conciseLogPath = [System.IO.Path]::GetFullPath($conciseLogPath)
+        $coreModulePath = [System.IO.Path]::GetFullPath($coreModulePath)
+
+        if (-not (Test-Path -LiteralPath $conciseLogPath)) {
+            Write-Error 'Required module not found: concise-log.psm1'
+            exit 1
+        }
+
+        if (-not (Test-Path -LiteralPath $coreModulePath)) {
+            Write-Error 'Required module not found: powershell-core.psm1'
+            exit 1
+        }
+
+        Import-Module -Name $conciseLogPath -Force -ErrorAction Stop
+        Import-Module -Name $coreModulePath -Force -ErrorAction Stop
+
+        # Now functions from the module are available
+        Initialize-ScriptEnvironment
+
+    - Core modules are loaded into a separate module scope.
+    - Functions are available in the calling script's scope after import.
+    - Module-level variables are NOT accessible to calling scripts unless
+      explicitly exported.
+
+8.19 No Side Effects at Import
+
+    - Core modules are designed to have no side effects when imported:
+
+        - ✓ Does not modify environment variables
+        - ✓ Does not set global preferences
+        - ✓ Does not execute functions
+        - ✓ Does not create files or directories
+        - ✓ Only defines functions and exports them
+
+8.20 Elevated Script Template
+
+    - Elevated scripts require administrative privileges and use functions
+      from the powershell-core module for elevation handling.
+
+    - Template structure:
+
+        <#
+        .SYNOPSIS
+            Brief description of what the elevated script does.
+
+        .DESCRIPTION
+            Detailed explanation of the script's purpose and requirements.
+
+        .NOTES
+            Requires: Administrative privileges
+            Platform: Windows only
+            Requirements: pwsh 7.5.4
+        #>
+
+        [CmdletBinding()]
+        param()
+
+        # Import required modules
+        $scriptPath = $PSScriptRoot
+        $conciseLogPath = Join-Path $scriptPath 'concise-log.psm1'
+        $coreModulePath = Join-Path $scriptPath 'powershell-core.psm1'
+
+        # Convert to absolute paths (REQUIRED)
+        $conciseLogPath = [System.IO.Path]::GetFullPath($conciseLogPath)
+        $coreModulePath = [System.IO.Path]::GetFullPath($coreModulePath)
+
+        if (-not (Test-Path -LiteralPath $conciseLogPath)) {
+            Write-Error 'Required module not found: concise-log.psm1'
+            exit 1
+        }
+
+        if (-not (Test-Path -LiteralPath $coreModulePath)) {
+            Write-Error 'Required module not found: powershell-core.psm1'
+            exit 1
+        }
+
+        Import-Module -Name $conciseLogPath -Force -ErrorAction Stop
+        Import-Module -Name $coreModulePath -Force -ErrorAction Stop
+
+        # Initialize script environment
+        Initialize-ScriptEnvironment
+        Assert-WindowsPlatform
+        Assert-PowerShellVersionStrict
+
+        # Check for administrative privileges
+        if (-not (Test-IsAdministrator)) {
+            Write-InfoLog -Scope "ELEV-SCRIPT" `
+                -Message "Requesting administrative privileges"
+
+            Invoke-ElevationRequest
+        }
+
+        # Script logic here
+        Write-FormattedStep -Message "Starting elevated operations"
+
+        # Perform elevated tasks
+        # ...
+
+        Write-FormattedStep -Message "Elevated operations completed"
+
+    - Available functions in elevated context:
+        - Initialize-ScriptEnvironment
+        - Assert-WindowsPlatform
+        - Test-IsInteractivePowerShell
+        - Invoke-PowerShellCoreTransition
+        - Assert-PowerShellVersionStrict
+        - Test-IsAdministrator
+        - Invoke-ElevationRequest
+        - Write-FormattedStep (private, but available)
+
+8.21 Non-Elevated Script Template
+
+    - Non-elevated scripts do not require administrative privileges and
+      use only initialization and utility functions from powershell-core.
+
+    - Template structure:
+
+        <#
+        .SYNOPSIS
+            Brief description of what the non-elevated script does.
+
+        .DESCRIPTION
+            Detailed explanation of the script's purpose and requirements.
+
+        .NOTES
+            Platform: Windows only
+            Requirements: pwsh 7.5.4
+        #>
+
+        [CmdletBinding()]
+        param()
+
+        # Import required modules
+        $scriptPath = $PSScriptRoot
+        $conciseLogPath = Join-Path $scriptPath 'concise-log.psm1'
+        $coreModulePath = Join-Path $scriptPath 'powershell-core.psm1'
+
+        # Convert to absolute paths (REQUIRED)
+        $conciseLogPath = [System.IO.Path]::GetFullPath($conciseLogPath)
+        $coreModulePath = [System.IO.Path]::GetFullPath($coreModulePath)
+
+        if (-not (Test-Path -LiteralPath $conciseLogPath)) {
+            Write-Error 'Required module not found: concise-log.psm1'
+            exit 1
+        }
+
+        if (-not (Test-Path -LiteralPath $coreModulePath)) {
+            Write-Error 'Required module not found: powershell-core.psm1'
+            exit 1
+        }
+
+        Import-Module -Name $conciseLogPath -Force -ErrorAction Stop
+        Import-Module -Name $coreModulePath -Force -ErrorAction Stop
+
+        # Initialize script environment
+        Initialize-ScriptEnvironment
+        Assert-WindowsPlatform
+        Assert-PowerShellVersionStrict
+
+        # Check if running interactively
+        if (Test-IsInteractivePowerShell) {
+            Write-FormattedStep -Message "Running in interactive mode"
+        } else {
+            Write-InfoLog -Scope "SCRIPT" `
+                -Message "Running in non-interactive mode"
+        }
+
+        # Script logic here
+        Write-FormattedStep -Message "Starting operations"
+
+        # Perform tasks
+        # ...
+
+        Write-FormattedStep -Message "Operations completed"
+
+    - Available functions in non-elevated context:
+        - Initialize-ScriptEnvironment
+        - Assert-WindowsPlatform
+        - Test-IsInteractivePowerShell
+        - Invoke-PowerShellCoreTransition
+        - Assert-PowerShellVersionStrict
+        - Write-FormattedStep (private, but available)
+
+    - Note: Elevation functions (Test-IsAdministrator,
+      Invoke-ElevationRequest) are not used in non-elevated scripts.
+
+9.1 Review Checklist
+
+    - [ ] Module metadata with SYNOPSIS, DESCRIPTION, NOTES
+    - [ ] Corresponding .psd1 manifest file present
+    - [ ] Manifest declares ModuleVersion with semantic versioning
+    - [ ] Manifest declares Author with contact information
+    - [ ] Manifest declares Description with clear purpose
+    - [ ] Manifest declares FunctionsToExport with all public functions
+    - [ ] Manifest declares PowerShellVersion requirement
+    - [ ] NO CmdletBinding or parameters at script level
+    - [ ] NO auto-execution of code at import time
+    - [ ] Set-StrictMode -Version Latest present
+    - [ ] All functions have full documentation
+    - [ ] All functions declare [CmdletBinding()]
+    - [ ] No abbreviations or single-character variables
+    - [ ] No side effects outside function scope
+    - [ ] Path handling uses -LiteralPath
+    - [ ] Command execution uses & operator
+    - [ ] SOLID principles applied
+    - [ ] Code organized with #region and #endregion for folding
+    - [ ] All public functions exported via Export-ModuleMember
+    - [ ] Private helper functions NOT exported
+    - [ ] Functions return values instead of calling exit
+    - [ ] Module can be safely imported without side effects
+    - [ ] No logging functions in core module (use concise-log.psm1)
+    - [ ] Write-FormattedStep is private (not exported)
+    - [ ] Write-FormattedStep uses Write-InfoLog from concise-log.psm1
+    - [ ] Functions marked with context indicators (elevated/non-elevated)
+    - [ ] Help file section 8.2 lists only 7 exported functions
+    - [ ] Help file section 8.20 provides elevated script template
+    - [ ] Help file section 8.21 provides non-elevated script template
+    - [ ] All lines maximum 83 characters (RULE 08)
+    - [ ] File maximum 997 lines (RULE 09)
+
+9.2 References
+
+    - PowerShell Scripting Best Practices
+      https://learn.microsoft.com/en-us/powershell/scripting/learn/
+      ps101/09-functions
+
+    - Approved PowerShell Verbs
+      https://learn.microsoft.com/en-us/powershell/scripting/developer/
+      cmdlet/approved-verbs-for-powershell-commands
+
+    - SOLID Principles
+      https://en.wikipedia.org/wiki/SOLID
+
+    - PowerShell Style Guide
+      https://poshcode.gitbook.io/powershell-practice-and-style/
+
+    - RFC 2119 - Key words for use in RFCs
+      https://tools.ietf.org/html/rfc2119
+
+    - RFC 8174 - Ambiguity of Uppercase vs Lowercase in RFC 2119
+      https://tools.ietf.org/html/rfc8174
+
+|<------------------------------->[ ENDED-CRFCF ]<------------------------------->|

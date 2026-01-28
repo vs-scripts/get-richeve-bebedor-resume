@@ -1,0 +1,26 @@
+{
+  "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+  "WinGetVersion": "1.6.2631",
+  "Sources": [
+    {
+      "SourceDetails": {
+        "Name": "winget",
+        "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
+        "Type": "Microsoft.PreIndexed.Package",
+        "Argument": "https://cdn.winget.microsoft.com/cache"
+      },
+      "Packages": [
+        {
+          "PackageIdentifier": "Gerardog.gsudo",
+          "Version": "2.4.3",
+          "Source": "winget"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerShell",
+          "Version": "7.5.4",
+          "Source": "winget"
+        }
+      ]
+    }
+  ]
+}

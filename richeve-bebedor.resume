@@ -1,0 +1,153 @@
+CONCISE RFC RESUME — RICHEVE S. BEBEDOR
+
+0.  METADATA
+
+RFC: CONCISE-RFC-RESUME GROUP: PROFESSIONAL PROFILE TITLE: BACKEND
+ENGINEER PROFILE ACRONYM: RBENG AUTHOR: RICHEVE S. BEBEDOR
+richeve.bebedor@gmail.com CATEGORY: INFORMATIONAL STATUS: STABLE
+VERSION: 000001 (1.0.0) CREATED: 2026-01-28
+
+1.  SUMMARY
+
+This document specifies the professional profile of Richeve S. Bebedor,
+a senior-level Node.js backend engineer with over a decade of experience
+designing APIs, distributed systems, and automation platforms. The
+author specializes in TypeScript-based backend services, background
+processing systems, cloud-integrated platforms, and reusable
+infrastructure tooling.
+
+Primary focus areas include scalable backend architecture, system
+modularity, automation-first engineering, and performance-aware data and
+media processing pipelines.
+
+2.  CAREER STATUS
+
+This document represents a stable description of production-level
+engineering capabilities demonstrated across startup, enterprise, and
+contract environments. The intended audience includes engineering teams,
+system architects, and technical recruiters evaluating backend and
+platform engineering roles.
+
+3.  ENGINEERING PRINCIPLES
+
+The author follows these engineering principles when designing systems:
+
+-   Systems MUST be modular, observable, and testable
+-   APIs SHOULD be stateless and versioned
+-   Background processing MUST be fault-tolerant and concurrency-aware
+-   Infrastructure SHOULD be automated and reproducible
+-   Integrations MUST include resilience patterns (retries, logging,
+    rate handling)
+
+4.  TECHNICAL SCOPE DEFINITIONS
+
+Backend System: Server-side services responsible for APIs, business
+logic, and data processing.
+
+Distributed Processing: Workloads executed across multiple workers,
+threads, or services to improve throughput and reliability.
+
+Worker Pipeline: Background job architecture used for CPU or I/O
+intensive processing such as media transformation.
+
+Integration Layer: Abstraction layer responsible for communication with
+third-party APIs and external services.
+
+Automation Tooling: CLI or programmatic utilities used to streamline
+operational or developer workflows.
+
+5.  CORE COMPETENCIES
+
+5.1 Core Languages - JavaScript (since 2012) - TypeScript - Node.js
+Runtime Ecosystem
+
+5.2 Backend Architecture - NestJS, Express, Fastify, Action Hero -
+RESTful API design - Microservices and service-oriented architecture
+
+5.3 Data Systems - PostgreSQL, Sequelize - MongoDB, Mongoose - LevelDB
+ecosystem
+
+5.4 Distributed & Background Processing - Node.js Worker Threads,
+clustering - Queue-based job processing - FFmpeg-based media pipelines -
+Concurrency and parallel task execution
+
+5.5 Cloud & Infrastructure - AWS (EC2, S3, Lambda, SNS) - Microsoft
+Azure (App Services, Cosmos DB, Networking) - Docker, Nginx, PM2 - Linux
+server environments
+
+5.6 Integration & Automation - Payment, media, and SaaS API
+integrations - Authentication and SSO integrations - CLI tooling and
+automation scripts
+
+6.  PROFESSIONAL EXPERIENCE
+
+6.1 Senior Backend Developer — Staizen (2024–2025) System Type:
+Enterprise Planning Platform (Gembaa) - Implemented and maintained
+NestJS microservices for enterprise workflow processing - Resolved
+production issues and delivered new backend features - Contributed to
+API reliability and test coverage using Jest Technologies: Node.js,
+TypeScript, NestJS, PostgreSQL
+
+6.2 Senior Backend Developer — RevDojo (2023–2024) System Type: Vehicle
+Dealership Service Platform - Migrated and modernized backend services
+to updated architecture - Improved maintainability of service request
+and lead processing modules Technologies: Node.js, TypeScript, Angular,
+ActionHero, Sequelize, PostgreSQL
+
+6.3 Full Stack Developer — Narrasoft (2022–2023) System Type: Accounting
+and Billing Platform - Maintained and enhanced backend services
+supporting financial workflows - Worked across API, database, and
+frontend integration layers Technologies: Node.js, TypeScript, Angular,
+Express, MongoDB, PostgreSQL
+
+6.4 Senior Backend Developer — Dottystyle Creative (2021–2023) System
+Type: Real Estate Platform & Media Processing Services - Developed
+backend features and integrations for property management platform -
+Implemented cloud-based media processing workflows using AWS services
+Technologies: Node.js, TypeScript, Express, MongoDB Atlas, AWS Lambda,
+S3, SNS
+
+6.5 Lead Web Developer / System Architect — BIA Jiros Travel & Tours
+(2015–2023) System Type: Online Transport Booking Platform
+(Biyaheroes) - Served as system architect and lead engineer for full
+platform lifecycle - Designed backend services, databases, and
+infrastructure deployment - Managed production AWS EC2 environments and
+MongoDB systems Technologies: Node.js, Express, AngularJS, React,
+MongoDB, AWS EC2
+
+7.  SELECTED SYSTEM IMPLEMENTATIONS
+
+7.1 Distributed Media Processing Pipelines Designed concurrent media
+processing services using Node.js worker threads and FFmpeg for
+automated transcoding and metadata extraction.
+
+7.2 Modular API Integration Frameworks Developed reusable service
+patterns for integrating third-party platforms with standardized
+logging, retry logic, and error handling.
+
+7.3 Background Worker Orchestration Systems Built queue-driven worker
+systems for handling asynchronous and high-volume processing workloads.
+
+7.4 Transport Booking System Architecture Architected scalable backend
+services and infrastructure for a nationwide transport booking platform.
+
+8.  OPEN SOURCE & TOOLING CONTRIBUTIONS
+
+-   Author of 400+ GitHub repositories focused on backend utilities and
+    developer tooling
+-   Publisher of 200+ NPM packages related to Node.js infrastructure,
+    automation, and data processing
+-   Emphasis on reusable modules, CLI tools, and backend service helpers
+
+9.  SYSTEM ARCHITECTURE PHILOSOPHY
+
+The author favors modular service-oriented design, observable backend
+components, automation-first infrastructure, performance-aware data
+pipelines, and cloud-native scalability.
+
+10. EDUCATION
+
+Bachelor of Science in Computer Science AMA University — 2011
+
+Thesis involved neural network concepts and handwriting analysis using
+object-oriented simulation models.

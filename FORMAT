@@ -1,0 +1,422 @@
+|<------------------------------->[ BEGIN-CRFCF ]<------------------------------->|
+
+NOTICE: UNAUTHORIZED MODIFICATION OF THIS DOCUMENT IS EXPRESSLY PROHIBITED. EDITING
+PRIVILEGES ARE EXCLUSIVELY RESERVED FOR THE AUTHOR, DESIGNATED CONTRIBUTORS, AND
+AUTHORIZED ARTIFICIAL INTELLIGENCE AGENTS. DOCUMENT INTEGRITY IS SECURED BY A
+CRYPTOGRAPHIC CHECKSUM; AUTOMATED VERIFICATION SCRIPTS ARE EMPLOYED TO DETECT AND
+PREVENT UNAUTHORIZED ALTERATIONS.
+
+0.  METADATA:
+
+    - RFC:      CONCISE-RFC-000000
+    - GROUP:    VS-SCRIPTS
+    - TITLE:    CONCISE RFC FORMAT
+    - ACRONYM:  CRFCF
+    - AUTHOR:   RICHEVE BEBEDOR <richeve.bebedor+vs-scripts@gmail.com>
+    - CATEGORY: SPECIFICATION
+    - STATUS:   DRAFT
+    - VERSION:  000000 (0.0.0)
+    - CREATED:  2025-12-20
+    - CHECKSUM: <SHA-256>
+
+1.  Summary:
+
+    This document defines the canonical structure, sections, and rules for all
+    CONCISE-RFC-XXXXXX documents in this repository. It serves as the authoritative
+    template for contributors, artificial intelligent agents, and tooling.
+
+2.  Permission:
+
+    NOTICE: PERMISSION TO USE, MODIFY, COPY, AND/OR DISTRIBUTE THIS DOCUMENT
+    AND/OR REPOSITORY IS GRANTED UNDER THE TERMS OF THE LICENSE AGREEMENT
+    SPECIFIED IN THE LICENSE FILE. PLEASE REFER TO THE LICENSE FILE FOR DETAILS.
+
+3.  Contents:
+
+    0.  METADATA ........................................................... 009
+    1.  Summary ............................................................ 022
+    2.  Permission ......................................................... 028
+    3.  Contents ........................................................... 034
+    4.  Document Status .................................................... 046
+    5.  Normative Language ................................................. 057
+    6.  Naming Conventions ................................................. 071
+    7.  Structure .......................................................... 076
+    8.  Compliance ......................................................... 354
+
+4.  Document Status:
+
+    - This document is a DRAFT repository-level RFC.
+    - It is not an Internet Standards Track specification.
+    - It is intended to enforce,
+
+        - uniformity,
+        - clarity,
+        - conciseness,
+        - and machine-parsable
+
+      structure across all CONCISE-RFC-XXXXXX documents.
+
+5.  Normative Language:
+
+    - The key words,
+
+        - MUST,
+        - MUST NOT,
+        - SHOULD,
+        - and SHOULD NOT
+
+      in this document SHOULD follow RFC-2119 and RFC-8174.
+    - This document MUST NOT use MAY.
+    - The key word "MUST" denotes "required".
+    - The key word "SHOULD" denotes "optional".
+
+6.  Naming Conventions:
+
+    - CONCISE-RFC-XXXXXX document file names MUST be in ALL CAPS.
+
+        Exceptions:
+            - *.todo files
+            - *.help files
+
+    - All CONCISE-RFC-XXXXXX document file names MUST be one word.
+
+        Exceptions:
+            - *.todo files
+            - *.help files
+
+7.  Structure:
+
+    - All CONCISE-RFC-XXXXXX documents MUST be in text format.
+
+    - All CONCISE-RFC-XXXXXX documents MUST be encoded in UTF-8 without BOM.
+
+    - All CONCISE-RFC-XXXXXX documents MUST use LF as the EOL style.
+
+    - All CONCISE-RFC-XXXXXX documents MUST end with a trailing newline.
+
+    - All CONCISE-RFC-XXXXXX documents MUST NOT exceed 997 lines of text.
+
+    - All CONCISE-RFC-XXXXXX documents MUST be within 83 characters
+      in column width per line.
+
+    - All CONCISE-RFC-XXXXXX documents MUST start with,
+        - 1 (|) pipe character, then
+        - 1 less than (<) character, then
+        - 31 hyphen (-) characters, then
+        - 1 opening square bracket ([) character
+        - followed by BEGIN-CRFCF surrounded by 1 space on each side, then
+        - 1 closing square bracket (]) character
+        - 31 hyphen (-) characters, then
+        - 1 greater than (>) character, and then, lastly,
+        - 1 (|) pipe character.
+
+    - All CONCISE-RFC-XXXXXX documents MUST end with,
+        - 1 (|) pipe character, then
+        - 1 less than (<) character, then
+        - 31 hyphen (-) characters, then
+        - 1 opening square bracket ([) character
+        - followed by ENDED-CRFCF surrounded by 1 space on each side, then
+        - 1 closing square bracket (]) character
+        - 31 hyphen (-) characters, then
+        - 1 greater than (>) character, and then, lastly,
+        - 1 (|) pipe character.
+
+    - All CONCISE-RFC-XXXXXX documents MUST have the NOTICE for unauthorized
+      modifications with the following format:
+
+        NOTICE: UNAUTHORIZED MODIFICATION OF THIS DOCUMENT IS EXPRESSLY PROHIBITED.
+        EDITING PRIVILEGES ARE EXCLUSIVELY RESERVED FOR THE AUTHOR, DESIGNATED
+        CONTRIBUTORS, AND AUTHORIZED ARTIFICIAL INTELLIGENCE AGENTS. DOCUMENT
+        INTEGRITY IS SECURED BY A CRYPTOGRAPHIC CHECKSUM; AUTOMATED VERIFICATION
+        SCRIPTS ARE EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
+
+        - This NOTICE format MUST NOT be modified.
+
+    - All repositories MUST contain the following METADATA documents:
+
+        - 5LAWS
+        - AUTHOR
+        - CHANGELOG
+
+            - This MUST contain the changelog of this repository.
+            - Each line entry MUST respect the 83 characters column width.
+            - Each line entry SHOULD respect the conventional commits 1.0.0
+              specification as described in this document:
+
+                https://www.conventionalcommits.org/en/v1.0.0/
+
+              with few caveats:
+
+                - This document MUST only contain the following action types:
+
+                    - specs
+
+                        - These commits MUST only contain files and messages
+                          regarding changes to the todo/ directory.
+
+                    - tests
+
+                        - These commits MUST only contain files and messages
+                          regarding changes to the tests/ directory.
+
+                    - issue
+
+                        - These commits MUST only contain files and messages
+                          regarding changes that is outside of todo/, tests/, and
+                          helps/ directory.
+
+                    - helps
+
+                        - These commits MUST only contain files and messages
+                          regarding changes to the helps/ directory.
+
+                    - break
+
+                        - These commits MUST only contain the VERSION file
+                          and messages regarding changes to the VERSION file.
+
+                - tests MUST be interpreted as test
+                - helps MUST be interpreted as docs
+                - revert MUST be interpreted as issue
+                - fix MUST be interpreted as issue
+                - feat MUST be interpreted as issue
+                - perf MUST be interpreted as issue
+                - ci MUST be interpreted as issue
+                - style MUST be interpreted as issue
+                - chore MUST be interpreted as issue
+                - build MUST be interpreted as issue
+                - specs MUST be interpreted as docs and chore combined
+                - specs MUST be for issue specification only
+                - break MUST be interpreted as a commit history break
+                - commit history break provides historical grouping
+                - All action types MUST have a character length of 5.
+
+            - Each changelog item MUST be in this format:
+
+                <YYYY-MM-DD> <action-type>: <concise-description>
+
+                Example:
+
+                    2025-12-20 specs: update documentation
+
+            - Concise description MUST have a maximum character
+              length of 65.
+            - The format for each changelog item MUST consist of,
+
+                - 10 characters date in YYYY-MM-DD format, followed by space then,
+                - action type right padded to length 5, then colon and space then,
+                - lastly, a maximum of 65 character length concise description.
+
+        - CONTRIBUTING
+        - CONTRIBUTORS
+        - EMAIL
+        - FLOW
+        - FORMAT
+
+            - This file itself.
+
+        - INDEX
+
+            - The target entry of this repository.
+
+        - LICENSE
+
+            - This MUST contain the license of this repository.
+            - This MUST follow the FORMAT file.
+            - This MUST only contain two sections, METADATA and License.
+
+        - METADATA
+        - ORIGIN
+        - PRIVACY
+        - README
+        - REFERENCES
+        - SECURITY
+        - WEBSITE
+        - VERSION
+
+            - This MUST contain the version of this repository in SEMVER format.
+            - SEMVER format MUST adhere to the format defined in,
+
+                https://semver.org/
+
+              with few caveats:
+
+                - This MUST be in the RELEASE.MAJOR.MINOR format.
+                - PATCH version MUST be interpreted as MINOR version.
+                - CRITICAL changes MUST be interpreted as MAJOR version.
+                - RELEASE version MUST start at zero.
+                - A RELEASE version of zero MUST NOT be considered stable.
+                - A RELEASE version of zero MUST NOT be used in production.
+                - 99 MINOR versions MUST increment the MAJOR version.
+                - 99 MAJOR versions MUST increment the RELEASE version.
+
+            - Only the author MUST have the capability to update the VERSION file.
+            - Version numbers MUST NOT reach 3 digits.
+
+
+    - All single-line text formatted METADATA documents MUST be a single line
+      with no line feed end of line and no final line feed.
+
+    - All list text formatted METADATA documents MUST be multiple lines
+      with line feed end of line and no final line feed.
+
+    - All CONCISE-RFC-XXXXXX documents MUST follow this structure
+      in this order:
+
+        X.  METADATA:
+
+            This MUST contain the metadata of this document.
+
+            The metadata of this document MUST follow this format
+            in this order:
+
+            - RFC:      CONCISE-RFC-XXXXXX
+
+                - This MUST be the RFC format version name of the FORMAT file
+                  used by this document.
+
+            - GROUP:    <GROUP PROJECT NAME>
+            - TITLE:    <UNIQUE AND CONCISE DOCUMENT TITLE>
+
+                - This MUST have a maximum of 5 letter word.
+
+            - ACRONYM:  <UACDT>
+
+                - This MUST be 5 alphanumeric characters uppercase format.
+
+            - AUTHOR:   <FIRST NAME> <LAST NAME> <email>
+            - CATEGORY: (SPECIFICATION | INFORMATIONAL | EXPERIMENTAL)
+            - STATUS:   (DRAFT | REVIEW | STABLE | DEPRECATED | OBSOLETE)
+            - VERSION:  XXXXXX <X.X.X>
+
+                - This MUST be the version of this document.
+
+            - CREATED:  <YYYY-MM-DD>
+            - CHECKSUM: <SHA-256>
+
+        X.  Summary:
+
+            This MUST contain the abstract of this document.
+
+        X.  License:
+
+            - This MUST contain the license text of this document.
+            - This MUST only be used on LICENSE document.
+            - LICENSE document MUST only contain this and the METADATA section.
+
+        X.  Permission:
+
+            - This MUST define the permissions for using, modifying, copying, and
+              distributing this document and/or this repository.
+            - This MUST contain the NOTICE for permission in this format:
+
+                NOTICE: PERMISSION TO USE, MODIFY, COPY, AND/OR DISTRIBUTE THIS
+                DOCUMENT AND/OR REPOSITORY IS GRANTED UNDER THE TERMS OF THE
+                LICENSE AGREEMENT SPECIFIED IN THE LICENSE FILE. PLEASE REFER TO
+                THE LICENSE FILE FOR DETAILS.
+
+            - This MUST be contained in all CONCISE-RFC-XXXXXX documents except the
+              LICENSE file.
+
+        X.  Contents:
+
+            This MUST contain the table of contents of this document.
+
+        X.  Document Status:
+
+            This MUST contain the descriptive status of this document.
+
+        X.  Normative Language:
+
+            This MUST contain the normative language of this document.
+
+        X.  Naming Conventions:
+
+            This MUST contain the naming conventions of this document.
+
+        X.  Structure:
+
+            This MUST contain the structure of the repository and/or this document.
+
+        X.  Compliance:
+
+            This MUST contain the compliance of this document to this format,
+            styles, principles, and tools which include any, but not limited, to
+            artificial intelligent agent tools.
+
+    - All CONCISE-RFC-XXXXXX documents MUST follow these principles:
+
+        - Single Responsibility Principle. CONCISE-RFC-XXXXXX documents
+          MUST address one and only one concern or feature.
+        - Open-Closed Principle. CONCISE-RFC-XXXXXX documents MUST be open for
+          extension but closed for modification. Once the status is STABLE, the
+          CONCISE-RFC-XXXXXX documents MUST NOT be modified. New
+          CONCISE-RFC-XXXXXX documents MUST be created for updates. If a
+          CONCISE-RFC-XXXXXX document has issues, then the entire
+          CONCISE-RFC-XXXXXX document MUST be marked for deprecation and a new
+          CONCISE-RFC-XXXXXX document MUST be published.
+        - Liskov Principle. <todo: Please fill this>
+        - Interface Segregation Principle. <todo: Please fill this>
+        - Dependency Inversion Principle. <todo: Please fill this>
+
+    - All CONCISE-RFC-XXXXXX documents MUST follow this style:
+
+        - Section headers MUST be clear, concise, and well-defined.
+        - Section headers MUST always define one and only one meaning.
+        - Section contents MUST only contain the following styles,
+            - Descriptive paragraphs in normal conversational English language.
+            - Descriptive paragraphs must not contain complex conversational
+              English words.
+            - Lists that start with 1 hyphen (-) character followed by a single
+              space and then the list item.
+            - Formatted structures that are different from this format.
+        - All formatted structures with ordered components MUST be followed.
+
+    - All repositories MUST contain the following basic directories,
+
+        - .vscode/
+        - .github/
+        - .husky/
+        - dist/
+        - helps/
+        - public/
+        - scripts/
+        - src/
+        - template/
+        - tests/
+        - todo/
+
+            - All todo files MUST follow CONCISE-RFC-XXXXXX.
+            - All todo files MUST end with *.todo file extension.
+            - All todo files MUST be interpreted as text files.
+            - There are five issue categories for todo,
+
+                - critical
+                - major
+                - minor
+                - prototype
+                - reported
+
+            - All todo files MUST follow the file name format:
+
+                <priority>-issue-<YYYY-MM-DD>-<short-title>.todo
+
+                Example:
+
+                    critical-issue-2025-12-21-fix-e2e-tests.todo
+
+        - waste
+
+8.  Compliance:
+
+        - All artificial intelligent agents MUST read the FORMAT file.
+        - All artificial intelligent agents MUST add the FORMAT file in their
+          context list.
+        - All artificial intelligent agents MUST follow the FORMAT file.
+        - All artificial intelligent agents MUST respect the FORMAT file.
+        - All artificial intelligent agents MUST NOT modify the FORMAT file.
+        - All artificial intelligent agents MUST NOT modify the VERSION file.
+        - All artificial intelligent agents MUST adhere to the normative language
+          requirements in the FORMAT file.
+
+|<------------------------------->[ ENDED-CRFCF ]<------------------------------->|

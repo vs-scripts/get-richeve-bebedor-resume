@@ -1,0 +1,179 @@
+AI COMMIT & PUSH PROTOCOL
+
+PHASE 0 — CONTEXT & AUTHORITY
+
+    - Authority:
+
+        - Read and comply with ./5LAWS.
+        - Read and comply with ./RULES.
+        - Read and comply with ./FORMAT.
+        - Read and comply with ./helps/concise-commit-format.help.
+        - Read and understand ./helps/agent-commit-prompt-flow.help
+          for guidance only.
+
+    - Rule Precedence:
+
+        - Rules apply in the order listed above.
+        - Commit message rules in concise-commit-format.help override FORMAT.
+        - If any rule is ambiguous, conflicting, or incomplete:
+
+            - First consult ./helps/agent-commit-prompt-flow.help
+              to resolve procedural ambiguity.
+            - Do NOT infer intent or make assumptions.
+            - If ambiguity remains after consulting the flow help file,
+              stop and request clarification from the author.
+
+    - Commit Template Binding:
+
+        - The commit message template provided in the repository
+          is the ONLY permitted commit message structure.
+        - The commit message template resides in ./.gitmessage file.
+        - The agent MUST use this template verbatim when creating
+          commit messages.
+        - The agent MUST NOT invent, omit, reorder, or rename
+          commit message fields.
+
+    - Flow Help Scope:
+
+        - ./helps/agent-commit-prompt-flow.help defines
+          internal decision logic only.
+        - It MUST NOT override this protocol, RULES,
+          FORMAT, or the commit message template.
+
+    - Interaction Constraint:
+
+        - Execution is non-interactive by default.
+        - The agent MUST NOT ask questions about execution,
+          commit content, or next steps unless explicitly
+          blocked by unresolved ambiguity.
+
+    - Execution Boundary:
+
+        - No repository changes, commits, or pushes are permitted
+          before PHASE 4.
+
+PHASE 1 — INGESTION
+
+    - Ingestion Artifact: Repository State Map
+
+        - List repository changes relative to HEAD:
+
+            1. Modified files
+            2. Added (untracked) files
+            3. Deleted files
+
+        - Output this map verbatim before proceeding to PHASE 2.
+        - Do not analyze, group, normalize, or plan in this phase.
+
+PHASE 2 — NORMALIZATION
+
+    - Classify changes by file:
+
+        - Identify the single target file and its change type.
+        - Verify one file per commit requirement from ./RULES.
+        - Batched commits are never allowed.
+        - If multiple files exist, select exactly one file for this cycle.
+        - Do NOT ask the author to choose a file.
+        - All other files remain unplanned until the next cycle.
+
+    - Failure Rule:
+
+        - If more than one file is staged or planned, stop and self-correct:
+          - git restore --staged .
+          - git add <single-file-path>
+          - Restart from PHASE 1 with exactly one planned file.
+
+PHASE 3 — ANALYSIS
+
+    - Evaluate commit plan feasibility:
+
+        - Verify each file can be committed independently.
+        - Check that commit messages can follow concise-commit-format.help.
+        - Identify any conflicts with ./RULES or ./FORMAT.
+        - When viewing changes, use: git --no-pager diff
+        - Do NOT use interactive diff tools or pagers.
+
+    - Failure Rule:
+
+        - If any conflict or infeasibility is identified, stop and report
+          the issue. Do not auto-resolve.
+
+PHASE 4 — DECISION / ACTION
+
+    - Create Commit Plan:
+
+        - Define commits using only files from Phase 1 ingestion.
+        - Follow ./RULES, including one file per commit.
+        - Do not batch unrelated changes.
+        - Define commit messages using concise-commit-format.help.
+        - Output the commit plan before execution.
+
+    - Execute Commits:
+
+        - Create commits exactly as defined in the plan.
+        - Each commit must modify only one file.
+        - Before each commit, enforce a single staged file:
+
+            - git restore --staged .
+            - git add <single-file-path>
+            - git diff --cached --name-only must return exactly one path.
+
+        - Use stdin to preserve header/body line breaks:
+
+            - PowerShell (Windows):
+
+                $commitMsg = @'
+                <type>(<scope>): <subject>
+
+                1. file: <path>
+                2. change: <what-changed>
+                3. reason: <why>
+                4. impact: <impact>
+                5. verify: <how-verified>
+                '@
+                $commitMsg | git commit -F -
+
+            - POSIX shell (macOS/Linux):
+
+                git commit -F - <<'EOF'
+                <type>(<scope>): <subject>
+
+                1. file: <path>
+                2. change: <what-changed>
+                3. reason: <why>
+                4. impact: <impact>
+                5. verify: <how-verified>
+                EOF
+
+        - Do not modify files during commit execution.
+        - Each commit message must follow concise-commit-format.help.
+        - If any commit violates rules or format, stop and report the issue.
+
+    - Push Changes:
+
+        - Push commits only after all commits pass PHASE 5 verification.
+        - Do not push partial or failed commit sets.
+        - Check repository status after pushing.
+
+PHASE 5 — VALIDATION
+
+    - Verify each commit:
+
+        - Use: git --no-pager show --name-only <commit>
+        - Do NOT run git diff or git show without --no-pager.
+        - The correct file was committed.
+        - The commit scope matches the plan.
+        - The commit body has exactly 5 numbered lines.
+        - Each line is 83 characters or fewer.
+
+    - Verify repository state:
+
+        - If no uncommitted changes remain, execution complete.
+        - If changes remain, restart from PHASE 1 and repeat all phases.
+        - Continue cycling until the repository is clean.
+        - Do NOT terminate early while changes remain.
+
+    - Failure handling:
+
+        - If verification fails, do not push, report the failure,
+          and enter a terminal stop state.

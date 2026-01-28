@@ -1,0 +1,73 @@
+{
+    "editor.bracketPairColorization.enabled": true,
+    "editor.defaultFormatter": "EditorConfig.EditorConfig",
+    "editor.folding": false,
+    "editor.fontSize": 17,
+    "editor.formatOnSave": true,
+    "editor.glyphMargin": false,
+    "editor.guides.bracketPairs": "active",
+    "editor.lineNumbers": "on",
+    "editor.minimap.maxColumn": 83,
+    "editor.minimap.showSlider": "always",
+    "editor.minimap.size": "proportional",
+    "editor.occurrencesHighlight": "off",
+    "editor.rulers": [
+        83
+    ],
+    "editor.scrollBeyondLastColumn": 0,
+    "editor.selectionHighlight": false,
+    "editor.wordWrap": "off",
+    "files.associations": {
+        "*.help": "text",
+        "*.template": "text",
+        "*.todo": "text",
+        "*[ BEGIN-CRFCF ]*": "text",
+        "*[ ENDED-CRFCF ]*": "text",
+        "5LAWS": "text",
+        "AUTHOR": "text",
+        "CHANGELOG": "text",
+        "CONTRIBUTING": "text",
+        "CONTRIBUTORS": "text",
+        "EMAIL": "text",
+        "FLOW": "text",
+        "FORMAT": "text",
+        "INDEX": "text",
+        "LICENSE": "text",
+        "METADATA": "text",
+        "ORIGIN": "text",
+        "PRIVACY": "text",
+        "README": "text",
+        "REFERENCES": "text",
+        "RULES": "text",
+        "SECURITY": "text",
+        "VERSION": "text",
+        "WEBSITE": "text",
+    },
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "files.insertFinalNewline": true,
+    "files.readonlyInclude": {
+        "**/5LAWS": true,
+        "**/AUTHOR": true,
+        "**/EMAIL": true,
+        "**/INDEX": true,
+        "**/ORIGIN": true,
+        "**/RULES": true,
+        "**/VERSION": true,
+        "**/WEBSITE": true
+    },
+    "files.trimTrailingWhitespace": true,
+    "prettier.enable": false,
+    "terminal.integrated.profiles.windows": {
+        "Elevated PowerShell": {
+            "path": "gsudo.exe",
+            "args": [
+                "pwsh"
+            ]
+        }
+    },
+    "workbench.editor.centeredLayoutAutoResize": false,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    }
+}

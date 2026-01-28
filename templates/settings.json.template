@@ -1,0 +1,68 @@
+{
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.rulers": [
+        83
+    ],
+    "editor.wordWrap": "off",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "EditorConfig.EditorConfig",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.minimap.maxColumn": 83,
+    "editor.minimap.size": "proportional",
+    "editor.minimap.showSlider": "always",
+    "editor.scrollBeyondLastColumn": 0,
+    "editor.lineNumbers": "on",
+    "editor.glyphMargin": false,
+    "editor.folding": false,
+    "editor.occurrencesHighlight": "off",
+    "editor.selectionHighlight": false,
+    "files.insertEndOfLine": "lf",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": false,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "files.readonlyInclude": {
+        "**/AUTHOR": true,
+        "**/EMAIL": true,
+        "**/INDEX": true,
+        "**/ORIGIN": true,
+        "**/VERSION": true,
+        "**/WEBSITE": true
+    },
+    "files.associations": {
+        "*- BEGIN-RFC -*": "text",
+        "*- ENDED-RFC -*": "text",
+        "*.template": "text",
+        "*.todo": "text",
+        "AUTHOR": "text",
+        "CHANGELOG": "text",
+        "CONTRIBUTING": "text",
+        "CONTRIBUTORS": "text",
+        "EMAIL": "text",
+        "FLOW": "text",
+        "FORMAT": "text",
+        "INDEX": "text",
+        "LICENSE": "text",
+        "METADATA": "text",
+        "ORIGIN": "text",
+        "PRIVACY": "text",
+        "README": "text",
+        "REFERENCES": "text",
+        "SECURITY": "text",
+        "VERSION": "text",
+        "WEBSITE": "text"
+    },
+    "prettier.enable": false,
+    "terminal.integrated.profiles.windows": {
+        "Elevated PowerShell": {
+            "path": "gsudo.exe",
+            "args": [
+                "pwsh"
+            ]
+        }
+    },
+    "workbench.editor.centeredLayoutAutoResize": false
+}
