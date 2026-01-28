@@ -42,14 +42,7 @@
 !VERSION
 !WEBSITE
 
-!*.bash
-!*.js
 !*.mjs
-!*.ps1
-!*.psd1
-!*.psm1
-!*.sh
-!*.zig
 !*.json
 !*.resume
 
@@ -92,6 +85,7 @@
 
 !todo/
 !todo/**/*.todo
+!todo/**/*.done
 
 !helps/
 !helps/**/*.help
