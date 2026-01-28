@@ -1,0 +1,39 @@
+{
+  "name": "get-richeve-bebedor-resume",
+  "version": "0.0.0",
+  "description": "get richeve bebedor resume",
+  "keywords": [
+    "richeve",
+    "bebedor",
+    "resume"
+  ],
+  "homepage": "https://github.com/vs-scripts/get-richeve-bebedor-resume#readme",
+  "bugs": {
+    "url": "https://github.com/vs-scripts/get-richeve-bebedor-resume/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vs-scripts/get-richeve-bebedor-resume.git"
+  },
+  "license": "MIT",
+  "author": "Richeve Bebedor <richeve.bebedor+vs-scripts@gmail.com> (https://github.com/vs-scripts)",
+  "type": "module",
+  "main": "richeve-bebedor.resume",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npx --yes husky"
+  },
+  "engines": {
+    "node": "24.13.0",
+    "npm": "11.6.2"
+  },
+  "volta": {
+    "node": "24.13.0",
+    "npm": "11.6.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "20.3.1",
+    "@commitlint/config-conventional": "20.3.1",
+    "lint-staged": "16.2.7"
+  }
+}
