@@ -19,8 +19,6 @@
     - Elevation functions
         - Test-IsAdministrator,
         - Invoke-ElevationRequest
-    - Formatted output functions
-        - Write-FormattedStep (private helper)
 
     Logging functionality is provided by the separate concise-log.psm1
     module.
@@ -475,52 +473,6 @@ function Invoke-ElevationRequest {
             -Message "Failed to request elevation: $_"
 
         exit 1
-    }
-}
-
-#endregion
-
-#region Formatted Output Functions
-
-function Write-FormattedStep {
-    <#
-    .SYNOPSIS
-        Outputs formatted step messages with visual styling.
-
-    .DESCRIPTION
-        Displays a formatted step message with visual formatting. Useful for
-        displaying progress steps in scripts with consistent visual styling.
-        Uses Write-InfoLog from concise-log.psm1 for output.
-
-    .PARAMETER Message
-        The step message to display.
-
-    .OUTPUTS
-        None. Outputs to the host.
-
-    .EXAMPLE
-        Write-FormattedStep -Message "Initializing script environment"
-        Displays a formatted step message.
-
-    .NOTES
-        Context: Both elevated and non-elevated scripts
-        This is a private helper function (not exported).
-        Depends on: Write-InfoLog from concise-log.psm1
-    #>
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$Message
-    )
-
-    try {
-        $formattedMessage = "► $Message"
-        Write-InfoLog -Scope "SCRIPT-STEP" -Message $formattedMessage
-    }
-    catch {
-        Write-ErrorLog -Scope "SCRIPT-STEP" `
-            -Message "Failed to write formatted step: $_"
     }
 }
 
