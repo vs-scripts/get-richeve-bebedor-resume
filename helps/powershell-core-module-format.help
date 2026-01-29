@@ -659,12 +659,12 @@ PREVENT UNAUTHORIZED ALTERATIONS.
         }
 
         # Script logic here
-        Write-FormattedStep -Message "Starting elevated operations"
+        Write-InfoLog -Scope "SCRIPT" -Message "Starting elevated operations"
 
         # Perform elevated tasks
         # ...
 
-        Write-FormattedStep -Message "Elevated operations completed"
+        Write-InfoLog -Scope "SCRIPT" -Message "Elevated operations completed"
 
     - Available functions in elevated context:
         - Initialize-ScriptEnvironment
@@ -674,7 +674,6 @@ PREVENT UNAUTHORIZED ALTERATIONS.
         - Assert-PowerShellVersionStrict
         - Test-IsAdministrator
         - Invoke-ElevationRequest
-        - Write-FormattedStep (private, but available)
 
 8.21 Non-Elevated Script Template
 
@@ -727,19 +726,19 @@ PREVENT UNAUTHORIZED ALTERATIONS.
 
         # Check if running interactively
         if (Test-IsInteractivePowerShell) {
-            Write-FormattedStep -Message "Running in interactive mode"
+            Write-InfoLog -Scope "SCRIPT" -Message "Running in interactive mode"
         } else {
             Write-InfoLog -Scope "SCRIPT" `
                 -Message "Running in non-interactive mode"
         }
 
         # Script logic here
-        Write-FormattedStep -Message "Starting operations"
+        Write-InfoLog -Scope "SCRIPT" -Message "Starting operations"
 
         # Perform tasks
         # ...
 
-        Write-FormattedStep -Message "Operations completed"
+        Write-InfoLog -Scope "SCRIPT" -Message "Operations completed"
 
     - Available functions in non-elevated context:
         - Initialize-ScriptEnvironment
@@ -747,7 +746,6 @@ PREVENT UNAUTHORIZED ALTERATIONS.
         - Test-IsInteractivePowerShell
         - Invoke-PowerShellCoreTransition
         - Assert-PowerShellVersionStrict
-        - Write-FormattedStep (private, but available)
 
     - Note: Elevation functions (Test-IsAdministrator,
       Invoke-ElevationRequest) are not used in non-elevated scripts.
@@ -777,8 +775,6 @@ PREVENT UNAUTHORIZED ALTERATIONS.
     - [ ] Functions return values instead of calling exit
     - [ ] Module can be safely imported without side effects
     - [ ] No logging functions in core module (use concise-log.psm1)
-    - [ ] Write-FormattedStep is private (not exported)
-    - [ ] Write-FormattedStep uses Write-InfoLog from concise-log.psm1
     - [ ] Functions marked with context indicators (elevated/non-elevated)
     - [ ] Help file section 8.2 lists only 7 exported functions
     - [ ] Help file section 8.20 provides elevated script template
