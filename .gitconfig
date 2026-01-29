@@ -7,3 +7,6 @@
 
 [commit]
     template = ./.gitmessage
+
+[user]
+    email = richeve.bebedor+vs-scripts@gmail.com
