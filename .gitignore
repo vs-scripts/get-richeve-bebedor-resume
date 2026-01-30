@@ -19,6 +19,7 @@
 !.gitconfig
 !.gitignore
 !.gitmessage
+!.nojekyll
 !.npmrc
 !.prettierignore
 
