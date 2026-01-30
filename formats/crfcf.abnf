@@ -1,20 +1,7 @@
-; =================================================================================
-; Core Terminals
-; =================================================================================
 
-SP                  = %x20
-
-LF                  = %x0A
-
-EOL                 = LF
-
-ALPHA               = %x41-5A / %x61-7A
-
-DIGIT               = %x30-39
-
-; =================================================================================
+; ================================================================================
 ; Document Structure
-; =================================================================================
+; ================================================================================
 
 document            = begin-marker
                       disclaimer
@@ -23,76 +10,185 @@ document            = begin-marker
 
 disclaimer          = paragraph
 
-; =================================================================================
+
+; ================================================================================
+; Core Terminals
+; ================================================================================
+
+SP                  = %x20
+LF                  = %x0A
+EOL                 = LF
+
+
+; ================================================================================
+; Core Character Classes
+; ================================================================================
+
+ALPHA               = %x41-5A / %x61-7A
+DIGIT               = %x30-39
+ALNUM               = ALPHA / DIGIT
+
+HYPHEN              = "-"
+UNDERSCORE          = "_"
+DOT                 = "."
+COLON               = ":"
+SLASH               = "/"
+BSLASH              = "\"
+AT                  = "@"
+PLUS                = "+"
+
+; ================================================================================
+; Basic Words
+; ================================================================================
+
+alnum-word          = 1*(ALNUM)
+numeric-word        = 1*(DIGIT)
+
+
+; ================================================================================
+; Separator-Based Words
+; ================================================================================
+
+hyphen-word         = alnum-word *(HYPHEN alnum-word)
+underscore-word     = alnum-word *(UNDERSCORE alnum-word)
+dot-word            = alnum-word *(DOT alnum-word)
+colon-word          = alnum-word *(COLON alnum-word)
+slash-word          = alnum-word *(SLASH alnum-word)
+backslash-word      = alnum-word *(BSLASH alnum-word)
+
+
+; ================================================================================
+; URL / URI Word (Lexical Shape Only)
+; ================================================================================
+
+scheme              = ALPHA *(ALPHA / DIGIT / PLUS / HYPHEN / DOT)
+authority           = alnum-word *(DOT alnum-word)
+path                = slash-word
+
+url-word            = scheme "://" authority ["/" path]
+
+
+; ================================================================================
+; Email Word (Lexical Shape Only)
+; ================================================================================
+
+local-part          = alnum-word *(DOT alnum-word)
+domain              = dot-word
+
+email-word          = local-part AT domain
+
+
+; ================================================================================
+; Unified Word
+; ================================================================================
+
+word                = email-word
+                    / url-word
+                    / slash-word
+                    / backslash-word
+                    / colon-word
+                    / dot-word
+                    / hyphen-word
+                    / underscore-word
+                    / numeric-word
+                    / alnum-word
+
+
+; ================================================================================
 ; Document Markers
-; =================================================================================
+; ================================================================================
 
 marker-line         = "<" 31"-" ">"
-
 begin-tag           = "[" SP "BEGIN-CRFCF" SP "]"
-
-begin-marker        = "|" marker-line begin-tag marker-line "|" EOL
-
 end-tag             = "[" SP "END-CRFCF" SP "]"
 
-end-marker          = "|" marker-line end-tag marker-line "|" EOL
+begin-marker        = "|" marker-line begin-tag marker-line "|" EOL
+end-marker          = "|" marker-line end-tag   marker-line "|" EOL
 
-; =================================================================================
+
+; ================================================================================
 ; Indentation Components
-; =================================================================================
+; ================================================================================
 
 indent-unit         = 2*4SP
-
 indent              = 1*indent-unit
 
-; =================================================================================
-; Document Components
-; =================================================================================
 
-word-character      = %x21-7E
+; ================================================================================
+; Lexical & Linguistic Components
+; ================================================================================
 
-word                = 1*(word-character)
-
+; A phrase is space-separated words
 phrase              = word *(SP word)
 
+; A sentence is space-separated phrases ending with a period
 sentence            = phrase *(SP phrase) "."
 
+; Sentences may be separated by space or newline
 sentence-separator  = SP / EOL
 
+; A paragraph is one or more sentences
 paragraph           = sentence *(sentence-separator sentence)
 
-key                 = phrase ":"
 
+; ================================================================================
+; Key / Value Components
+; ================================================================================
+
+key                 = phrase ":"
 key-value           = key SP phrase
 
-content             = paragraph
-                    / phrase
-                    / key
-                    / key-value
+; ================================================================================
+; Content Contexts (FACTORED, NOT NEW SYNTAX)
+; ================================================================================
 
-list-item           = 1*(content)
+; Inline content is non-paragraph content
+inline-content      = key-value
+                    / key
+                    / phrase
+
+; Block content is paragraph or list-based
+block-content       = paragraph
+                    / ordered-list
+                    / unordered-list
+
+
+; ================================================================================
+; Lists
+; ================================================================================
+
+list-item           = 1*(inline-content)
 
 order-number        = 1(DIGIT) *1("." 1(DIGIT))
 
 ordered-item        = order-number "." 1*2SP list-item
-
 unordered-item      = "-" 1SP list-item
 
-paragraph-list      = 1*(paragraph EOL)
-
 ordered-list        = 1*(ordered-item EOL)
-
 unordered-list      = 1*(unordered-item EOL)
+
+
+; ================================================================================
+; Content Lists
+; ================================================================================
+
+paragraph-list      = 1*(paragraph EOL)
 
 content-list        = paragraph-list
                     / ordered-list
                     / unordered-list
 
+
+; ================================================================================
+; Blocks
+; ================================================================================
+
 block               = *indent content-list
 
-; =================================================================================
-; Section Components
-; =================================================================================
+
+; ================================================================================
+; Sections
+; ================================================================================
 
 section-header      = order-number "." 1*2SP key EOL
 
