@@ -59,6 +59,9 @@
 !.vscode/
 !.vscode/**/*.json
 
+!formats/
+!formats/**/*.abnf
+
 !scripts/
 !scripts/**/*.js
 !scripts/**/*.mjs
