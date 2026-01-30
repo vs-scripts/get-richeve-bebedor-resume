@@ -1,0 +1,258 @@
+
+# ================================================================================
+# Core Terminals
+# ================================================================================
+
+SP          <- " "
+LF          <- "\n"
+EOL         <- LF
+
+
+# ================================================================================
+# Core Character Classes
+# ================================================================================
+
+ALPHA       <- [A-Za-z]
+DIGIT       <- [0-9]
+ALNUM       <- [A-Za-z0-9]
+
+HYPHEN      <- "-"
+UNDERSCORE  <- "_"
+DOT         <- "."
+COLON       <- ":"
+SLASH       <- "/"
+BSLASH      <- "\\"
+AT          <- "@"
+PLUS        <- "+"
+
+
+# ================================================================================
+# Document Structure
+# ================================================================================
+
+Document
+    <- BeginMarker
+       Disclaimer
+       Section+
+       EndMarker
+
+Disclaimer
+    <- Paragraph
+
+
+# ================================================================================
+# Document Markers
+# ================================================================================
+
+MarkerLine
+    <- "<" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-"
+       "-" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-"
+       "-" "-" "-" "-" "-" "-" "-" "-" ">"
+
+BeginTag
+    <- "[" SP "BEGIN-CRFCF" SP "]"
+
+EndTag
+    <- "[" SP "END-CRFCF" SP "]"
+
+BeginMarker
+    <- "|" MarkerLine BeginTag MarkerLine "|" EOL
+
+EndMarker
+    <- "|" MarkerLine EndTag   MarkerLine "|" EOL
+
+
+# ================================================================================
+# Indentation
+# ================================================================================
+
+IndentUnit
+    <- SP SP
+     / SP SP SP
+     / SP SP SP SP
+
+Indent
+    <- IndentUnit+
+
+
+# ================================================================================
+# Words (Ordered: most specific → most general)
+# ================================================================================
+
+Word
+    <- EmailWord
+     / UrlWord
+     / SlashWord
+     / BackslashWord
+     / ColonWord
+     / DotWord
+     / HyphenWord
+     / UnderscoreWord
+     / NumericWord
+     / AlnumWord
+
+
+# ================================================================================
+# Basic Words
+# ================================================================================
+
+AlnumWord
+    <- ALNUM+
+
+NumericWord
+    <- DIGIT+
+
+
+# ================================================================================
+# Separator-Based Words
+# ================================================================================
+
+HyphenWord
+    <- AlnumWord (HYPHEN AlnumWord)+
+
+UnderscoreWord
+    <- AlnumWord (UNDERSCORE AlnumWord)+
+
+DotWord
+    <- AlnumWord (DOT AlnumWord)+
+
+ColonWord
+    <- AlnumWord (COLON AlnumWord)+
+
+SlashWord
+    <- AlnumWord (SLASH AlnumWord)+
+
+BackslashWord
+    <- AlnumWord (BSLASH AlnumWord)+
+
+
+# ================================================================================
+# URL / URI Word (Lexical Shape Only)
+# ================================================================================
+
+Scheme
+    <- ALPHA (ALPHA / DIGIT / PLUS / HYPHEN / DOT)*
+
+Authority
+    <- AlnumWord (DOT AlnumWord)*
+
+Path
+    <- SlashWord
+
+UrlWord
+    <- Scheme "://" Authority ("/" Path)?
+
+
+# ================================================================================
+# Email Word (Lexical Shape Only)
+# ================================================================================
+
+LocalPart
+    <- AlnumWord (DOT AlnumWord)*
+
+Domain
+    <- DotWord
+
+EmailWord
+    <- LocalPart AT Domain
+
+
+# ================================================================================
+# Linguistic Components
+# ================================================================================
+
+Phrase
+    <- Word (SP Word)*
+
+Sentence
+    <- Phrase (SP Phrase)* DOT
+
+SentenceSeparator
+    <- SP / EOL
+
+Paragraph
+    <- Sentence (SentenceSeparator Sentence)*
+
+
+# ================================================================================
+# Key / Value
+# ================================================================================
+
+Key
+    <- Phrase COLON
+
+KeyValue
+    <- Key SP Phrase
+
+
+# ================================================================================
+# Inline Content (Ordered)
+# ================================================================================
+
+InlineContent
+    <- KeyValue
+     / Key
+     / Phrase
+
+
+# ================================================================================
+# Lists
+# ================================================================================
+
+OrderNumber
+    <- DIGIT+ (DOT DIGIT+)?
+
+ListItem
+    <- InlineContent+
+
+OrderedItem
+    <- OrderNumber DOT SP SP? ListItem
+
+UnorderedItem
+    <- "-" SP ListItem
+
+OrderedList
+    <- (OrderedItem EOL)+
+
+UnorderedList
+    <- (UnorderedItem EOL)+
+
+
+# ================================================================================
+# Content Lists
+# ================================================================================
+
+ParagraphList
+    <- (Paragraph EOL)+
+
+ContentList
+    <- ParagraphList
+     / OrderedList
+     / UnorderedList
+
+
+# ================================================================================
+# Blocks
+# ================================================================================
+
+Block
+    <- Indent* ContentList
+
+
+# ================================================================================
+# Sections
+# ================================================================================
+
+SectionHeader
+    <- OrderNumber DOT SP SP? Key EOL
+
+SectionBody
+    <- Block+
+
+Section
+    <- SectionHeader
+       EOL
+       SectionBody
+
+SectionList
+    <- (Section EOL)+
