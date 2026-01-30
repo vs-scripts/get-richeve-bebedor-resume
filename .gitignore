@@ -61,6 +61,7 @@
 
 !formats/
 !formats/**/*.abnf
+!formats/**/*.peg
 
 !scripts/
 !scripts/**/*.js
