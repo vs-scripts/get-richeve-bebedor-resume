@@ -1,0 +1,90 @@
+; =================================================================================
+; Line Terminator
+; =================================================================================
+
+LF              = %x0A
+
+; =================================================================================
+; Document Structure
+; =================================================================================
+
+document        = begin-marker
+                  disclaimer
+                  1*section
+                  end-marker
+
+disclaimer      = paragraph
+
+; =================================================================================
+; Document Markers
+; =================================================================================
+
+marker-line     = "<" 31"-" ">"
+
+begin-tag       = "[" SP "BEGIN-CRFCF" SP "]"
+
+begin-marker    = "|" marker-line begin-tag marker-line "|" LF
+
+end-tag         = "[" SP "END-CRFCF" SP "]"
+
+end-marker      = "|" marker-line end-tag marker-line "|" LF
+
+; =================================================================================
+; Indentation Components
+; =================================================================================
+
+indent-unit     = 2*4SP
+
+indent          = 1*indent-unit
+
+; =================================================================================
+; Document Components
+; =================================================================================
+
+word            = 1*(VCHAR)
+
+phrase          = 1*(*indent word *SP)
+
+sentence        = 1*(phrase) "."
+
+paragraph       = 1*(sentence *SP) LF
+
+key             = phrase ":"
+
+key-value       = key SP phrase
+
+content         = paragraph
+                / sentence
+                / phrase
+                / key
+                / key-value
+
+list-item       = 1*(content)
+
+order-number    = 1(DIGIT) *1("." 1(DIGIT))
+
+ordered-item    = order-number "." 1*2SP list-item
+
+unordered-item  = "-" 1SP list-item
+
+ordered-list    = 1*(ordered-item LF)
+
+unordered-list  = 1*(unordered-item LF)
+
+content-list    = paragraph
+                / ordered-list
+                / unordered-list
+
+block           = *indent content-list
+
+; =================================================================================
+; Section Components
+; =================================================================================
+
+section-header  = order-number "." 1*2SP key LF
+
+section-body    = 1*block
+
+section         = section-header
+                  LF
+                  section-body
