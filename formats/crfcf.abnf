@@ -1,90 +1,105 @@
 ; =================================================================================
-; Line Terminator
+; Core Terminals
 ; =================================================================================
 
-LF              = %x0A
+SP                  = %x20
+
+LF                  = %x0A
+
+EOL                 = LF
+
+ALPHA               = %x41-5A / %x61-7A
+
+DIGIT               = %x30-39
 
 ; =================================================================================
 ; Document Structure
 ; =================================================================================
 
-document        = begin-marker
-                  disclaimer
-                  1*section
-                  end-marker
+document            = begin-marker
+                      disclaimer
+                      1*(section-list)
+                      end-marker
 
-disclaimer      = paragraph
+disclaimer          = paragraph
 
 ; =================================================================================
 ; Document Markers
 ; =================================================================================
 
-marker-line     = "<" 31"-" ">"
+marker-line         = "<" 31"-" ">"
 
-begin-tag       = "[" SP "BEGIN-CRFCF" SP "]"
+begin-tag           = "[" SP "BEGIN-CRFCF" SP "]"
 
-begin-marker    = "|" marker-line begin-tag marker-line "|" LF
+begin-marker        = "|" marker-line begin-tag marker-line "|" EOL
 
-end-tag         = "[" SP "END-CRFCF" SP "]"
+end-tag             = "[" SP "END-CRFCF" SP "]"
 
-end-marker      = "|" marker-line end-tag marker-line "|" LF
+end-marker          = "|" marker-line end-tag marker-line "|" EOL
 
 ; =================================================================================
 ; Indentation Components
 ; =================================================================================
 
-indent-unit     = 2*4SP
+indent-unit         = 2*4SP
 
-indent          = 1*indent-unit
+indent              = 1*indent-unit
 
 ; =================================================================================
 ; Document Components
 ; =================================================================================
 
-word            = 1*(VCHAR)
+word-character      = %x21-7E
 
-phrase          = 1*(*indent word *SP)
+word                = 1*(word-character)
 
-sentence        = 1*(phrase) "."
+phrase              = word *(SP word)
 
-paragraph       = 1*(sentence *SP) LF
+sentence            = phrase *(SP phrase) "."
 
-key             = phrase ":"
+sentence-separator  = SP / EOL
 
-key-value       = key SP phrase
+paragraph           = sentence *(sentence-separator sentence)
 
-content         = paragraph
-                / sentence
-                / phrase
-                / key
-                / key-value
+key                 = phrase ":"
 
-list-item       = 1*(content)
+key-value           = key SP phrase
 
-order-number    = 1(DIGIT) *1("." 1(DIGIT))
+content             = paragraph
+                    / phrase
+                    / key
+                    / key-value
 
-ordered-item    = order-number "." 1*2SP list-item
+list-item           = 1*(content)
 
-unordered-item  = "-" 1SP list-item
+order-number        = 1(DIGIT) *1("." 1(DIGIT))
 
-ordered-list    = 1*(ordered-item LF)
+ordered-item        = order-number "." 1*2SP list-item
 
-unordered-list  = 1*(unordered-item LF)
+unordered-item      = "-" 1SP list-item
 
-content-list    = paragraph
-                / ordered-list
-                / unordered-list
+paragraph-list      = 1*(paragraph EOL)
 
-block           = *indent content-list
+ordered-list        = 1*(ordered-item EOL)
+
+unordered-list      = 1*(unordered-item EOL)
+
+content-list        = paragraph-list
+                    / ordered-list
+                    / unordered-list
+
+block               = *indent content-list
 
 ; =================================================================================
 ; Section Components
 ; =================================================================================
 
-section-header  = order-number "." 1*2SP key LF
+section-header      = order-number "." 1*2SP key EOL
 
-section-body    = 1*block
+section-body        = 1*block
 
-section         = section-header
-                  LF
-                  section-body
+section             = section-header
+                      EOL
+                      section-body
+
+section-list        = 1*(section EOL)
