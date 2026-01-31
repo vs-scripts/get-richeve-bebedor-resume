@@ -71,7 +71,6 @@ domain                  = dot-word
 
 email-word              = local-part AT domain
 
-
 ; --------------------------------------------------------------------------------
 ; Word Set Components
 ; --------------------------------------------------------------------------------
@@ -124,6 +123,7 @@ paragraph               = level-0-paragraph
                         / level-3-paragraph
                         / level-4-paragraph
                         / level-5-paragraph
+
 
 ; ================================================================================
 ; Key-Value Components
