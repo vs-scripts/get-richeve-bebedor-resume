@@ -101,9 +101,9 @@ Word                    <- WordPart
 # Lexical & Linguistic Components
 # ================================================================================
 
-Phrase                  <- Word (","? SP Word)*
+Phrase                  <- Word (","? SentenceSeparator Word)*
 
-Sentence                <- Phrase (SP Phrase)* DOT
+Sentence                <- Phrase (SentenceSeparator Phrase)* DOT
 
 SentenceSeparator       <- SP / EOL
 
@@ -240,7 +240,7 @@ MarkerLine              <- "<" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-"
 
 BeginTag                <- "[" SP "BEGIN-CRFCF" SP "]"
 
-EndTag                  <- "[" SP "END-CRFCF" SP "]"
+EndTag                  <- "[" SP ("END-CRFCF" / "ENDED-CRFCF") SP "]"
 
 BeginMarker             <- "|" MarkerLine BeginTag MarkerLine "|" EOL
 
