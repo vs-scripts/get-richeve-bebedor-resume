@@ -8,15 +8,15 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 
 0.  METADATA:
 
-    - RFC:      RESUME-RFC-000000
-    - GROUP:    PROFESSIONAL PROFILE
-    - TITLE:    RICHEVE BEBEDOR BACKEND ENGINEER PROFILE
-    - ACRONYM:  RBBNG
-    - AUTHOR:   RICHEVE BEBEDOR <richeve.bebedor+vs-work@gmail.com>
+    - RFC: RESUME-RFC-000000
+    - GROUP: PROFESSIONAL PROFILE
+    - TITLE: RICHEVE BEBEDOR BACKEND ENGINEER PROFILE
+    - ACRONYM: RBBNG
+    - AUTHOR: RICHEVE BEBEDOR <richeve.bebedor+vs-work@gmail.com>
     - CATEGORY: INFORMATIONAL
-    - STATUS:   DRAFT
-    - VERSION:  000000 (0.0.0)
-    - CREATED:  2026-01-28
+    - STATUS: DRAFT
+    - VERSION: 000000 (0.0.0)
+    - CREATED: 2026-01-28
     - CHECKSUM: <CONCISE-RFC-CHECKSUM-SHA-256>
 
 1.  Summary:
@@ -335,7 +335,7 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
     Architected scalable backend services and infrastructure for a
     nationwide transport booking platform.
 
-10. Open Source and Tooling Contributions:
+A. Open Source and Tooling Contributions:
 
     This section describes ecosystem contributions and reusable infrastructure
     development.
@@ -346,13 +346,13 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
       automation, and data processing
     - Emphasis on reusable modules, CLI tools, and backend service helpers
 
-11. System Architecture Philosophy:
+B. System Architecture Philosophy:
 
     The author favors modular service-oriented design, observable backend
     components, automation-first infrastructure, performance-aware data
     pipelines, and cloud-native scalability.
 
-12. Education:
+C. Education:
 
     - Bachelor of Science in Computer Science, AMA University (2007 - 2011)
 
