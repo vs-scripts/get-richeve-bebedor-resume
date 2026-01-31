@@ -18,7 +18,9 @@ ALPHANUMERIC            <- ALPHA / DIGIT
 HYPHEN                  <- "-"
 UNDERSCORE              <- "_"
 DOT                     <- "."
+COMMA                   <- ","
 COLON                   <- ":"
+SEMICOLON               <- ";"
 SLASH                   <- "/"
 BSLASH                  <- "\\"
 AT                      <- "@"
@@ -101,7 +103,9 @@ Word                    <- WordPart
 # Lexical & Linguistic Components
 # ================================================================================
 
-Phrase                  <- Word (","? SentenceSeparator Word)*
+PhraseSeparator         <- COMMA / SEMICOLON
+
+Phrase                  <- Word (PhraseSeparator? SentenceSeparator Word)*
 
 Sentence                <- Phrase (SentenceSeparator Phrase)* DOT
 
@@ -140,9 +144,9 @@ ListItem                <- KeyValue
                          / Key
                          / Phrase
 
-Level1Order             <- DIGIT+
+Level1Order             <- DIGIT
 
-Level2Order             <- DIGIT+ DOT DIGIT+
+Level2Order             <- DIGIT DOT DIGIT
 
 OrderNumber             <- Level1Order
                          / Level2Order
