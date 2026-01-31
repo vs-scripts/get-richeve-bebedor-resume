@@ -56,10 +56,10 @@ Indent                  <- IndentUnit+
 
 
 # ================================================================================
-# Words (Ordered: most specific → most general)
+# Words
 # ================================================================================
 
-Word                    <- EmailWord
+WordPart                <- EmailWord
                          / UrlWord
                          / SlashWord
                          / BackslashWord
@@ -70,6 +70,11 @@ Word                    <- EmailWord
                          / NumericWord
                          / AlphanumericWord
 
+QuotedWordPart          <- "'" WordPart "'"
+                         / "\"" WordPart "\""
+
+Word                    <- QuotedWordPart
+                         / WordPart
 
 # ================================================================================
 # Basic Words
@@ -98,7 +103,7 @@ BackslashWord           <- AlphanumericWord (BSLASH AlphanumericWord)+
 
 
 # ================================================================================
-# URL / URI Word (Lexical Shape Only)
+# URL / URI Word
 # ================================================================================
 
 Scheme                  <- ALPHA (ALPHA / DIGIT / PLUS / HYPHEN / DOT)*
@@ -111,7 +116,7 @@ UrlWord                 <- Scheme "://" Authority ("/" Path)?
 
 
 # ================================================================================
-# Email Word (Lexical Shape Only)
+# Email Word
 # ================================================================================
 
 LocalPart               <- AlphanumericWord (DOT AlphanumericWord)*
@@ -125,7 +130,7 @@ EmailWord               <- LocalPart AT Domain
 # Linguistic Components
 # ================================================================================
 
-Phrase                  <- Word (SP Word)*
+Phrase                  <- Word (","? SP Word)*
 
 Sentence                <- Phrase (SP Phrase)* DOT
 
@@ -135,7 +140,7 @@ Paragraph               <- Sentence (SentenceSeparator Sentence)*
 
 
 # ================================================================================
-# Key / Value
+# Key-Value Components
 # ================================================================================
 
 Key                     <- Phrase COLON
@@ -144,21 +149,14 @@ KeyValue                <- Key SP Phrase
 
 
 # ================================================================================
-# Inline Content (Ordered)
+# List Components
 # ================================================================================
 
-InlineContent           <- KeyValue
+ListItem                <- KeyValue
                          / Key
                          / Phrase
 
-
-# ================================================================================
-# Lists
-# ================================================================================
-
 OrderNumber             <- DIGIT+ (DOT DIGIT+)?
-
-ListItem                <- InlineContent+
 
 OrderedItem             <- OrderNumber DOT SP SP? ListItem
 
@@ -168,21 +166,16 @@ OrderedList             <- (OrderedItem EOL)+
 
 UnorderedList           <- (UnorderedItem EOL)+
 
-
-# ================================================================================
-# Content Lists
-# ================================================================================
-
 ParagraphList           <- (Paragraph EOL)+
 
-ContentList             <- ParagraphList
+
+# ================================================================================
+# Content-Block Components
+# ================================================================================
+
+Content                 <- ParagraphList
                          / OrderedList
                          / UnorderedList
-
-
-# ================================================================================
-# Blocks
-# ================================================================================
 
 Block                   <- Indent* ContentList
 
