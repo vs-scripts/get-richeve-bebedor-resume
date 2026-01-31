@@ -102,9 +102,9 @@ word                    = word-part
 ; Lexical & Linguistic Components
 ; ================================================================================
 
-phrase                  = word *(*1"," SP word)
+phrase                  = word *(*1"," sentence-separator word)
 
-sentence                = phrase *(SP phrase) "."
+sentence                = phrase *(sentence-separator phrase) "."
 
 sentence-separator      = SP / EOL
 
@@ -158,18 +158,18 @@ ordered-item            = level-1-order-item
 unordered-item-part     = "-" SP list-item
 
 level-0-unordered-item  = unordered-item-part
-level-1-unoredered-item = indent unordered-item-part
-level-2-unoredered-item = 2(indent) unordered-item-part
-level-3-unoredered-item = 3(indent) unordered-item-part
-level-4-unoredered-item = 4(indent) unordered-item-part
-level-5-unoredered-item = 5(indent) unordered-item-part
+level-1-unordered-item  = indent unordered-item-part
+level-2-unordered-item  = 2(indent) unordered-item-part
+level-3-unordered-item  = 3(indent) unordered-item-part
+level-4-unordered-item  = 4(indent) unordered-item-part
+level-5-unordered-item  = 5(indent) unordered-item-part
 
 unordered-item          = level-0-unordered-item
-                        / level-1-unoredered-item
-                        / level-2-unoredered-item
-                        / level-3-unoredered-item
-                        / level-4-unoredered-item
-                        / level-5-unoredered-item
+                        / level-1-unordered-item
+                        / level-2-unordered-item
+                        / level-3-unordered-item
+                        / level-4-unordered-item
+                        / level-5-unordered-item
 
 ordered-list            = 1*(ordered-item EOL)
 unordered-list          = 1*(unordered-item EOL)
@@ -237,7 +237,7 @@ section-list            = 1*(section EOL)
 
 marker-line             = "<" 31"-" ">"
 begin-tag               = "[" SP "BEGIN-CRFCF" SP "]"
-end-tag                 = "[" SP "END-CRFCF" SP "]"
+end-tag                 = "[" SP ("END-CRFCF" / "ENDED-CRFCF") SP "]"
 
 begin-marker            = "|" marker-line begin-tag marker-line "|" EOL
 end-marker              = "|" marker-line end-tag   marker-line "|" EOL
