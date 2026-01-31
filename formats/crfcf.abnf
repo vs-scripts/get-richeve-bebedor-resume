@@ -19,7 +19,9 @@ ALPHANUMERIC            = ALPHA / DIGIT
 HYPHEN                  = "-"
 UNDERSCORE              = "_"
 DOT                     = "."
+COMMA                   = ","
 COLON                   = ":"
+SEMICOLON               = ";"
 SLASH                   = "/"
 BSLASH                  = "\"
 AT                      = "@"
@@ -102,7 +104,10 @@ word                    = word-part
 ; Lexical & Linguistic Components
 ; ================================================================================
 
-phrase                  = word *(*1"," sentence-separator word)
+phrase-separator        = COMMA
+                        / SEMICOLON
+
+phrase                  = word *(*1phrase-separator sentence-separator word)
 
 sentence                = phrase *(sentence-separator phrase) "."
 
@@ -141,9 +146,9 @@ list-item               = key-value
                         / key
                         / phrase
 
-level-1-order           = 1(DIGIT)
+level-1-order           = 2(DIGIT)
 
-level-2-order           = 1(DIGIT) "." 1(DIGIT)
+level-2-order           = 2(DIGIT) "." 2(DIGIT)
 
 order-number            = level-1-order
                         / level-2-order
@@ -203,16 +208,16 @@ block                   = level-0-block
 ; Section Components
 ; ================================================================================
 
-main-section-header     = level-1-order "." 2SP key EOL
+main-section-header     = level-1-order "." SP key EOL
 
-subsection-header       = level-2-order "." SP key EOL
+subsection-header       = indent level-2-order "." SP key EOL
 
 section-header          = main-section-header
                         / subsection-header
 
-main-section-body       = level-0-block
+main-section-body       = level-1-block
 
-support-section-body    = level-0-block
+support-section-body    = level-2-block
 
 specific-section-body   = level-1-block
                         / level-2-block
@@ -223,6 +228,14 @@ specific-section-body   = level-1-block
 section-body            = main-section-body
                         / support-section-body
                         / specific-section-body
+
+main-section            = main-section-header
+                          EOL
+                          main-section-body
+
+subsection              = subsection-header
+                          EOL
+                          support-section-body
 
 section                 = section-header
                           EOL
