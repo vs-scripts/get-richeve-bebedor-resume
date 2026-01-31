@@ -340,9 +340,9 @@ A. Open Source and Tooling Contributions:
     This section describes ecosystem contributions and reusable infrastructure
     development.
 
-    - Author of 400+ GitHub repositories focused on backend utilities and
+    - Author of some GitHub repositories focused on backend utilities and
       developer tooling
-    - Publisher of 200+ NPM packages related to Node.js infrastructure,
+    - Publisher of some NPM packages related to Node.js infrastructure,
       automation, and data processing
     - Emphasis on reusable modules, CLI tools, and backend service helpers
 
