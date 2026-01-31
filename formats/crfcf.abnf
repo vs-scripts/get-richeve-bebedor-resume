@@ -3,202 +3,255 @@
 ; Terminal Components
 ; ================================================================================
 
-SP                  = %x20
-LF                  = %x0A
-EOL                 = LF
+SP                      = %x20
+LF                      = %x0A
+EOL                     = LF
 
 
 ; ================================================================================
 ; Character Components
 ; ================================================================================
 
-ALPHA               = %x41-5A / %x61-7A
-DIGIT               = %x30-39
-ALPHANUMERIC        = ALPHA / DIGIT
+ALPHA                   = %x41-5A / %x61-7A
+DIGIT                   = %x30-39
+ALPHANUMERIC            = ALPHA / DIGIT
 
-HYPHEN              = "-"
-UNDERSCORE          = "_"
-DOT                 = "."
-COLON               = ":"
-SLASH               = "/"
-BSLASH              = "\"
-AT                  = "@"
-PLUS                = "+"
-
-; ================================================================================
-; Word Components
-; ================================================================================
-
-alphanumeric-word   = 1*(ALPHANUMERIC)
-numeric-word        = 1*(DIGIT)
-
-; --------------------------------------------------------------------------------
-; Separator-Based Word Components
-; --------------------------------------------------------------------------------
-
-hyphen-word         = alphanumeric-word *(HYPHEN alphanumeric-word)
-underscore-word     = alphanumeric-word *(UNDERSCORE alphanumeric-word)
-dot-word            = alphanumeric-word *(DOT alphanumeric-word)
-colon-word          = alphanumeric-word *(COLON alphanumeric-word)
-slash-word          = alphanumeric-word *(SLASH alphanumeric-word)
-backslash-word      = alphanumeric-word *(BSLASH alphanumeric-word)
-
-; --------------------------------------------------------------------------------
-; URL / URI Word (Lexical Shape Only)
-; --------------------------------------------------------------------------------
-
-scheme              = ALPHA *(ALPHA / DIGIT / PLUS / HYPHEN / DOT)
-authority           = alphanumeric-word *(DOT alphanumeric-word)
-path                = slash-word
-
-url-word            = scheme "://" authority ["/" path]
-
-; --------------------------------------------------------------------------------
-; Email Word (Lexical Shape Only)
-; --------------------------------------------------------------------------------
-
-local-part          = alphanumeric-word *(DOT alphanumeric-word)
-domain              = dot-word
-
-email-word          = local-part AT domain
-
-
-; --------------------------------------------------------------------------------
-; Unified Word
-; --------------------------------------------------------------------------------
-
-word-part           = email-word
-                    / url-word
-                    / slash-word
-                    / backslash-word
-                    / colon-word
-                    / dot-word
-                    / hyphen-word
-                    / underscore-word
-                    / numeric-word
-                    / alphanumeric-word
-
-quoted-word-part    = "'" word-part "'"
-                    / '"' word-part '"'
-
-word                = word-part
-                    / quoted-word-part
-
-; ================================================================================
-; Document Markers
-; ================================================================================
-
-marker-line         = "<" 31"-" ">"
-begin-tag           = "[" SP "BEGIN-CRFCF" SP "]"
-end-tag             = "[" SP "END-CRFCF" SP "]"
-
-begin-marker        = "|" marker-line begin-tag marker-line "|" EOL
-end-marker          = "|" marker-line end-tag   marker-line "|" EOL
+HYPHEN                  = "-"
+UNDERSCORE              = "_"
+DOT                     = "."
+COLON                   = ":"
+SLASH                   = "/"
+BSLASH                  = "\"
+AT                      = "@"
+PLUS                    = "+"
 
 
 ; ================================================================================
 ; Indentation Components
 ; ================================================================================
 
-indent-unit         = 2*4SP
-indent              = 1*indent-unit
+indent-unit             = 4SP
+indent                  = indent-unit
+
+
+; ================================================================================
+; Word Components
+; ================================================================================
+
+alphanumeric-word       = 1*(ALPHANUMERIC)
+numeric-word            = 1*(DIGIT)
+
+; --------------------------------------------------------------------------------
+; Separator-Based Word Components
+; --------------------------------------------------------------------------------
+
+hyphen-word             = alphanumeric-word *(HYPHEN alphanumeric-word)
+underscore-word         = alphanumeric-word *(UNDERSCORE alphanumeric-word)
+dot-word                = alphanumeric-word *(DOT alphanumeric-word)
+colon-word              = alphanumeric-word *(COLON alphanumeric-word)
+slash-word              = alphanumeric-word *(SLASH alphanumeric-word)
+backslash-word          = alphanumeric-word *(BSLASH alphanumeric-word)
+
+; --------------------------------------------------------------------------------
+; URI Word Components
+; --------------------------------------------------------------------------------
+
+scheme                  = ALPHA *(ALPHA / DIGIT / PLUS / HYPHEN / DOT)
+authority               = alphanumeric-word *(DOT alphanumeric-word)
+path                    = slash-word
+
+url-word                = scheme "://" authority ["/" path]
+
+; --------------------------------------------------------------------------------
+; Email Word Components
+; --------------------------------------------------------------------------------
+
+local-part              = alphanumeric-word *(DOT alphanumeric-word)
+domain                  = dot-word
+
+email-word              = local-part AT domain
+
+
+; --------------------------------------------------------------------------------
+; Word Set Components
+; --------------------------------------------------------------------------------
+
+word-part               = email-word
+                        / url-word
+                        / slash-word
+                        / backslash-word
+                        / colon-word
+                        / dot-word
+                        / hyphen-word
+                        / underscore-word
+                        / numeric-word
+                        / alphanumeric-word
+
+quoted-word-part        = "'" word-part "'"
+                        / '"' word-part '"'
+
+contained-word-part     = "[" word-part "]"
+                        / "<" word-part ">"
+                        / "(" word-part ")"
+
+word                    = word-part
+                        / quoted-word-part
+                        / contained-word-part
 
 
 ; ================================================================================
 ; Lexical & Linguistic Components
 ; ================================================================================
 
-; A phrase is space-separated words
-phrase              = word *(*"," SP word)
+phrase                  = word *(*1"," SP word)
 
-; A sentence is space-separated phrases ending with a period
-sentence            = phrase *(SP phrase) "."
+sentence                = phrase *(SP phrase) "."
 
-; Sentences may be separated by space or newline
-sentence-separator  = SP / EOL
+sentence-separator      = SP / EOL
 
-; A paragraph is one or more sentences
-paragraph           = sentence *(sentence-separator sentence)
+paragraph-part          = sentence *(sentence-separator sentence)
 
+level-0-paragraph       = paragraph-part
+level-1-paragraph       = indent paragraph-part
+level-2-paragraph       = 2(indent) paragraph-part
+level-3-paragraph       = 3(indent) paragraph-part
+level-4-paragraph       = 4(indent) paragraph-part
+level-5-paragraph       = 5(indent) paragraph-part
+
+paragraph               = level-0-paragraph
+                        / level-1-paragraph
+                        / level-2-paragraph
+                        / level-3-paragraph
+                        / level-4-paragraph
+                        / level-5-paragraph
 
 ; ================================================================================
 ; Key-Value Components
 ; ================================================================================
 
-key                 = phrase ":"
-key-value           = key SP phrase
+key                     = phrase ":"
+key-value               = key SP phrase
 
 
 ; ================================================================================
-; Content Contexts (FACTORED, NOT NEW SYNTAX)
+; List Components
 ; ================================================================================
 
-; Inline content is non-paragraph content
-inline-content      = key-value
-                    / key
-                    / phrase
+list-item               = key-value
+                        / key
+                        / phrase
 
-; Block content is paragraph or list-based
-block-content       = paragraph
-                    / ordered-list
-                    / unordered-list
+level-1-order           = 1(DIGIT)
 
+level-2-order           = 1(DIGIT) "." 1(DIGIT)
 
-; ================================================================================
-; Lists
-; ================================================================================
+order-number            = level-1-order
+                        / level-2-order
 
-list-item           = 1*(inline-content)
+level-1-order-item      = level-1-order "." 2SP list-item
 
-order-number        = 1(DIGIT) *1("." 1(DIGIT))
+level-2-order-item      = level-2-order "." SP list-item
 
-ordered-item        = order-number "." 1*2SP list-item
-unordered-item      = "-" 1SP list-item
+ordered-item            = level-1-order-item
+                        / level-2-order-item
 
-ordered-list        = 1*(ordered-item EOL)
-unordered-list      = 1*(unordered-item EOL)
+unordered-item-part     = "-" SP list-item
 
+level-0-unordered-item  = unordered-item-part
+level-1-unoredered-item = indent unordered-item-part
+level-2-unoredered-item = 2(indent) unordered-item-part
+level-3-unoredered-item = 3(indent) unordered-item-part
+level-4-unoredered-item = 4(indent) unordered-item-part
+level-5-unoredered-item = 5(indent) unordered-item-part
 
-; ================================================================================
-; Content Lists
-; ================================================================================
+unordered-item          = level-0-unordered-item
+                        / level-1-unoredered-item
+                        / level-2-unoredered-item
+                        / level-3-unoredered-item
+                        / level-4-unoredered-item
+                        / level-5-unoredered-item
 
-paragraph-list      = 1*(paragraph EOL)
-
-content-list        = paragraph-list
-                    / ordered-list
-                    / unordered-list
-
-
-; ================================================================================
-; Blocks
-; ================================================================================
-
-block               = *indent content-list
+ordered-list            = 1*(ordered-item EOL)
+unordered-list          = 1*(unordered-item EOL)
+paragraph-list          = 1*(paragraph EOL)
 
 
 ; ================================================================================
-; Sections
+; Content-Block Components
 ; ================================================================================
 
-section-header      = order-number "." 1*2SP key EOL
+content                 = paragraph-list
+                        / ordered-list
+                        / unordered-list
 
-section-body        = 1*block
+level-0-block           = content
+level-1-block           = indent content
+level-2-block           = 2(indent) content
+level-3-block           = 3(indent) content
+level-4-block           = 4(indent) content
+level-5-block           = 5(indent) content
 
-section             = section-header
-                      EOL
-                      section-body
+block                   = level-0-block
+                        / level-1-block
+                        / level-2-block
+                        / level-3-block
+                        / level-4-block
+                        / level-5-block
 
-section-list        = 1*(section EOL)
+
+; ================================================================================
+; Section Components
+; ================================================================================
+
+main-section-header     = level-1-order "." 2SP key EOL
+
+subsection-header       = level-2-order "." SP key EOL
+
+section-header          = main-section-header
+                        / subsection-header
+
+main-section-body       = level-0-block
+
+support-section-body    = level-0-block
+
+specific-section-body   = level-1-block
+                        / level-2-block
+                        / level-3-block
+                        / level-4-block
+                        / level-5-block
+
+section-body            = main-section-body
+                        / support-section-body
+                        / specific-section-body
+
+section                 = section-header
+                          EOL
+                          section-body
+
+section-list            = 1*(section EOL)
+
+
+; ================================================================================
+; Document Markers
+; ================================================================================
+
+marker-line             = "<" 31"-" ">"
+begin-tag               = "[" SP "BEGIN-CRFCF" SP "]"
+end-tag                 = "[" SP "END-CRFCF" SP "]"
+
+begin-marker            = "|" marker-line begin-tag marker-line "|" EOL
+end-marker              = "|" marker-line end-tag   marker-line "|" EOL
 
 
 ; ================================================================================
 ; Document Structure
 ; ================================================================================
 
-document            = begin-marker
-                      disclaimer
-                      section-list
-                      end-marker
+document                = begin-marker
+                          disclaimer
+                          section-list
+                          *1(footer-notes)
+                          end-marker
 
-disclaimer          = paragraph
+disclaimer              = paragraph
+footer-notes            = level-0-block
