@@ -14,7 +14,7 @@ EOL                 = LF
 
 ALPHA               = %x41-5A / %x61-7A
 DIGIT               = %x30-39
-ALNUM               = ALPHA / DIGIT
+ALPHANUMERIC        = ALPHA / DIGIT
 
 HYPHEN              = "-"
 UNDERSCORE          = "_"
@@ -29,48 +29,45 @@ PLUS                = "+"
 ; Word Components
 ; ================================================================================
 
-alnum-word          = 1*(ALNUM)
+alphanumeric-word   = 1*(ALPHANUMERIC)
 numeric-word        = 1*(DIGIT)
-
 
 ; --------------------------------------------------------------------------------
 ; Separator-Based Word Components
 ; --------------------------------------------------------------------------------
 
-hyphen-word         = alnum-word *(HYPHEN alnum-word)
-underscore-word     = alnum-word *(UNDERSCORE alnum-word)
-dot-word            = alnum-word *(DOT alnum-word)
-colon-word          = alnum-word *(COLON alnum-word)
-slash-word          = alnum-word *(SLASH alnum-word)
-backslash-word      = alnum-word *(BSLASH alnum-word)
-
+hyphen-word         = alphanumeric-word *(HYPHEN alphanumeric-word)
+underscore-word     = alphanumeric-word *(UNDERSCORE alphanumeric-word)
+dot-word            = alphanumeric-word *(DOT alphanumeric-word)
+colon-word          = alphanumeric-word *(COLON alphanumeric-word)
+slash-word          = alphanumeric-word *(SLASH alphanumeric-word)
+backslash-word      = alphanumeric-word *(BSLASH alphanumeric-word)
 
 ; --------------------------------------------------------------------------------
 ; URL / URI Word (Lexical Shape Only)
-; ================================================================================
+; --------------------------------------------------------------------------------
 
 scheme              = ALPHA *(ALPHA / DIGIT / PLUS / HYPHEN / DOT)
-authority           = alnum-word *(DOT alnum-word)
+authority           = alphanumeric-word *(DOT alphanumeric-word)
 path                = slash-word
 
 url-word            = scheme "://" authority ["/" path]
 
-
-; ================================================================================
+; --------------------------------------------------------------------------------
 ; Email Word (Lexical Shape Only)
-; ================================================================================
+; --------------------------------------------------------------------------------
 
-local-part          = alnum-word *(DOT alnum-word)
+local-part          = alphanumeric-word *(DOT alphanumeric-word)
 domain              = dot-word
 
 email-word          = local-part AT domain
 
 
-; ================================================================================
+; --------------------------------------------------------------------------------
 ; Unified Word
-; ================================================================================
+; --------------------------------------------------------------------------------
 
-word                = email-word
+word-part           = email-word
                     / url-word
                     / slash-word
                     / backslash-word
@@ -79,8 +76,13 @@ word                = email-word
                     / hyphen-word
                     / underscore-word
                     / numeric-word
-                    / alnum-word
+                    / alphanumeric-word
 
+quoted-word-part    = "'" word-part "'"
+                    / '"' word-part '"'
+
+word                = word-part
+                    / quoted-word-part
 
 ; ================================================================================
 ; Document Markers
@@ -107,7 +109,7 @@ indent              = 1*indent-unit
 ; ================================================================================
 
 ; A phrase is space-separated words
-phrase              = word *(SP word)
+phrase              = word *(*"," SP word)
 
 ; A sentence is space-separated phrases ending with a period
 sentence            = phrase *(SP phrase) "."
@@ -196,7 +198,7 @@ section-list        = 1*(section EOL)
 
 document            = begin-marker
                       disclaimer
-                      1*(section-list)
+                      section-list
                       end-marker
 
 disclaimer          = paragraph
