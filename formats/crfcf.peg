@@ -1,4 +1,3 @@
-
 # ================================================================================
 # Terminal Components
 # ================================================================================
@@ -14,8 +13,7 @@ EOL                     <- LF
 
 ALPHA                   <- [A-Za-z]
 DIGIT                   <- [0-9]
-
-ALPHANUMERIC            <- [A-Za-z0-9]
+ALPHANUMERIC            <- ALPHA / DIGIT
 
 HYPHEN                  <- "-"
 UNDERSCORE              <- "_"
@@ -28,36 +26,53 @@ PLUS                    <- "+"
 
 
 # ================================================================================
-# Document Markers
+# Indentation Components
 # ================================================================================
 
-MarkerLine              <- "<" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-"
-                           "-" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-"
-                           "-" "-" "-" "-" "-" "-" "-" "-" ">"
-
-BeginTag                <- "[" SP "BEGIN-CRFCF" SP "]"
-
-EndTag                  <- "[" SP "END-CRFCF" SP "]"
-
-BeginMarker             <- "|" MarkerLine BeginTag MarkerLine "|" EOL
-
-EndMarker               <- "|" MarkerLine EndTag   MarkerLine "|" EOL
+IndentUnit              <- SP SP SP SP
+Indent                  <- IndentUnit
 
 
 # ================================================================================
-# Indentation
+# Word Components
 # ================================================================================
 
-IndentUnit              <- SP SP
-                         / SP SP SP
-                         / SP SP SP SP
+AlphanumericWord        <- ALPHANUMERIC+
+NumericWord             <- DIGIT+
 
-Indent                  <- IndentUnit+
+# --------------------------------------------------------------------------------
+# Separator-Based Word Components
+# --------------------------------------------------------------------------------
 
+HyphenWord              <- AlphanumericWord (HYPHEN AlphanumericWord)*
+UnderscoreWord          <- AlphanumericWord (UNDERSCORE AlphanumericWord)*
+DotWord                 <- AlphanumericWord (DOT AlphanumericWord)*
+ColonWord               <- AlphanumericWord (COLON AlphanumericWord)*
+SlashWord               <- AlphanumericWord (SLASH AlphanumericWord)*
+BackslashWord           <- AlphanumericWord (BSLASH AlphanumericWord)*
 
-# ================================================================================
-# Words
-# ================================================================================
+# --------------------------------------------------------------------------------
+# URI Word Components
+# --------------------------------------------------------------------------------
+
+Scheme                  <- ALPHA (ALPHA / DIGIT / PLUS / HYPHEN / DOT)*
+Authority               <- AlphanumericWord (DOT AlphanumericWord)*
+Path                    <- SlashWord
+
+UrlWord                 <- Scheme "://" Authority ("/" Path)?
+
+# --------------------------------------------------------------------------------
+# Email Word Components
+# --------------------------------------------------------------------------------
+
+LocalPart               <- AlphanumericWord (DOT AlphanumericWord)*
+Domain                  <- DotWord
+
+EmailWord               <- LocalPart AT Domain
+
+# --------------------------------------------------------------------------------
+# Word Set Components
+# --------------------------------------------------------------------------------
 
 WordPart                <- EmailWord
                          / UrlWord
@@ -73,61 +88,17 @@ WordPart                <- EmailWord
 QuotedWordPart          <- "'" WordPart "'"
                          / "\"" WordPart "\""
 
-Word                    <- QuotedWordPart
-                         / WordPart
+ContainedWordPart       <- "[" WordPart "]"
+                         / "<" WordPart ">"
+                         / "(" WordPart ")"
 
-# ================================================================================
-# Basic Words
-# ================================================================================
-
-AlphanumericWord        <- ALPHANUMERIC+
-
-NumericWord             <- DIGIT+
+Word                    <- WordPart
+                         / QuotedWordPart
+                         / ContainedWordPart
 
 
 # ================================================================================
-# Separator-Based Words
-# ================================================================================
-
-HyphenWord              <- AlphanumericWord (HYPHEN AlphanumericWord)+
-
-UnderscoreWord          <- AlphanumericWord (UNDERSCORE AlphanumericWord)+
-
-DotWord                 <- AlphanumericWord (DOT AlphanumericWord)+
-
-ColonWord               <- AlphanumericWord (COLON AlphanumericWord)+
-
-SlashWord               <- AlphanumericWord (SLASH AlphanumericWord)+
-
-BackslashWord           <- AlphanumericWord (BSLASH AlphanumericWord)+
-
-
-# ================================================================================
-# URL / URI Word
-# ================================================================================
-
-Scheme                  <- ALPHA (ALPHA / DIGIT / PLUS / HYPHEN / DOT)*
-
-Authority               <- AlphanumericWord (DOT AlphanumericWord)*
-
-Path                    <- SlashWord
-
-UrlWord                 <- Scheme "://" Authority ("/" Path)?
-
-
-# ================================================================================
-# Email Word
-# ================================================================================
-
-LocalPart               <- AlphanumericWord (DOT AlphanumericWord)*
-
-Domain                  <- DotWord
-
-EmailWord               <- LocalPart AT Domain
-
-
-# ================================================================================
-# Linguistic Components
+# Lexical & Linguistic Components
 # ================================================================================
 
 Phrase                  <- Word (","? SP Word)*
@@ -136,7 +107,21 @@ Sentence                <- Phrase (SP Phrase)* DOT
 
 SentenceSeparator       <- SP / EOL
 
-Paragraph               <- Sentence (SentenceSeparator Sentence)*
+ParagraphPart           <- Sentence (SentenceSeparator Sentence)*
+
+Level0Paragraph         <- ParagraphPart
+Level1Paragraph         <- Indent ParagraphPart
+Level2Paragraph         <- Indent Indent ParagraphPart
+Level3Paragraph         <- Indent Indent Indent ParagraphPart
+Level4Paragraph         <- Indent Indent Indent Indent ParagraphPart
+Level5Paragraph         <- Indent Indent Indent Indent Indent ParagraphPart
+
+Paragraph               <- Level0Paragraph
+                         / Level1Paragraph
+                         / Level2Paragraph
+                         / Level3Paragraph
+                         / Level4Paragraph
+                         / Level5Paragraph
 
 
 # ================================================================================
@@ -144,7 +129,6 @@ Paragraph               <- Sentence (SentenceSeparator Sentence)*
 # ================================================================================
 
 Key                     <- Phrase COLON
-
 KeyValue                <- Key SP Phrase
 
 
@@ -156,16 +140,38 @@ ListItem                <- KeyValue
                          / Key
                          / Phrase
 
-OrderNumber             <- DIGIT+ (DOT DIGIT+)?
+Level1Order             <- DIGIT+
 
-OrderedItem             <- OrderNumber DOT SP SP? ListItem
+Level2Order             <- DIGIT+ DOT DIGIT+
 
-UnorderedItem           <- "-" SP ListItem
+OrderNumber             <- Level1Order
+                         / Level2Order
+
+Level1OrderItem         <- Level1Order DOT SP SP ListItem
+
+Level2OrderItem         <- Level2Order DOT SP ListItem
+
+OrderedItem             <- Level1OrderItem
+                         / Level2OrderItem
+
+UnorderedItemPart       <- "-" SP ListItem
+
+Level0UnorderedItem     <- UnorderedItemPart
+Level1UnorderedItem     <- Indent UnorderedItemPart
+Level2UnorderedItem     <- Indent Indent UnorderedItemPart
+Level3UnorderedItem     <- Indent Indent Indent UnorderedItemPart
+Level4UnorderedItem     <- Indent Indent Indent Indent UnorderedItemPart
+Level5UnorderedItem     <- Indent Indent Indent Indent Indent UnorderedItemPart
+
+UnorderedItem           <- Level0UnorderedItem
+                         / Level1UnorderedItem
+                         / Level2UnorderedItem
+                         / Level3UnorderedItem
+                         / Level4UnorderedItem
+                         / Level5UnorderedItem
 
 OrderedList             <- (OrderedItem EOL)+
-
 UnorderedList           <- (UnorderedItem EOL)+
-
 ParagraphList           <- (Paragraph EOL)+
 
 
@@ -177,16 +183,45 @@ Content                 <- ParagraphList
                          / OrderedList
                          / UnorderedList
 
-Block                   <- Indent* ContentList
+Level0Block             <- Content
+Level1Block             <- Indent Content
+Level2Block             <- Indent Indent Content
+Level3Block             <- Indent Indent Indent Content
+Level4Block             <- Indent Indent Indent Indent Content
+Level5Block             <- Indent Indent Indent Indent Indent Content
+
+Block                   <- Level0Block
+                         / Level1Block
+                         / Level2Block
+                         / Level3Block
+                         / Level4Block
+                         / Level5Block
 
 
 # ================================================================================
 # Section Components
 # ================================================================================
 
-SectionHeader           <- OrderNumber DOT SP SP? Key EOL
+MainSectionHeader       <- Level1Order DOT SP SP Key EOL
 
-SectionBody             <- Block+
+SubsectionHeader        <- Level2Order DOT SP Key EOL
+
+SectionHeader           <- MainSectionHeader
+                         / SubsectionHeader
+
+MainSectionBody         <- Level0Block
+
+SupportSectionBody      <- Level0Block
+
+SpecificSectionBody     <- Level1Block
+                         / Level2Block
+                         / Level3Block
+                         / Level4Block
+                         / Level5Block
+
+SectionBody             <- MainSectionBody
+                         / SupportSectionBody
+                         / SpecificSectionBody
 
 Section                 <- SectionHeader
                            EOL
@@ -196,12 +231,31 @@ SectionList             <- (Section EOL)+
 
 
 # ================================================================================
+# Document Markers
+# ================================================================================
+
+MarkerLine              <- "<" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-"
+                           "-" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-"
+                           "-" "-" "-" "-" "-" "-" "-" "-" "-" "-" ">"
+
+BeginTag                <- "[" SP "BEGIN-CRFCF" SP "]"
+
+EndTag                  <- "[" SP "END-CRFCF" SP "]"
+
+BeginMarker             <- "|" MarkerLine BeginTag MarkerLine "|" EOL
+
+EndMarker               <- "|" MarkerLine EndTag MarkerLine "|" EOL
+
+
+# ================================================================================
 # Document Structure
 # ================================================================================
 
 Document                <- BeginMarker
                            Disclaimer
                            SectionList
+                           FooterNotes?
                            EndMarker
 
 Disclaimer              <- Paragraph
+FooterNotes             <- Level0Block
