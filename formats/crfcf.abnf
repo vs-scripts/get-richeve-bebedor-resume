@@ -62,7 +62,7 @@ scheme                  = ALPHA *(ALPHA / DIGIT / PLUS / HYPHEN / DOT)
 authority               = alphanumeric-word *(DOT alphanumeric-word)
 path                    = slash-word
 
-url-word                = scheme "://" authority ["/" path]
+url-word                = scheme COLON 2(SLASH) authority [SLASH path]
 
 ; --------------------------------------------------------------------------------
 ; Email Word Components
@@ -109,7 +109,7 @@ phrase-separator        = COMMA
 
 phrase                  = word *(*1phrase-separator sentence-separator word)
 
-sentence                = phrase *(sentence-separator phrase) "."
+sentence                = phrase *(sentence-separator phrase) DOT
 
 sentence-separator      = SP / EOL
 
@@ -134,7 +134,7 @@ paragraph               = level-0-paragraph
 ; Key-Value Components
 ; ================================================================================
 
-key                     = phrase ":"
+key                     = phrase COLON
 key-value               = key SP phrase
 
 
@@ -146,21 +146,21 @@ list-item               = key-value
                         / key
                         / phrase
 
-level-1-order           = 2(DIGIT)
+level-1-order           = ALPHANUMERIC
 
-level-2-order           = 2(DIGIT) "." 2(DIGIT)
+level-2-order           = ALPHANUMERIC DOT ALPHANUMERIC
 
 order-number            = level-1-order
                         / level-2-order
 
-level-1-order-item      = level-1-order "." 2SP list-item
+level-1-order-item      = level-1-order DOT 2SP list-item
 
-level-2-order-item      = level-2-order "." SP list-item
+level-2-order-item      = level-2-order SP list-item
 
 ordered-item            = level-1-order-item
                         / level-2-order-item
 
-unordered-item-part     = "-" SP list-item
+unordered-item-part     = HYPHEN SP list-item
 
 level-0-unordered-item  = unordered-item-part
 level-1-unordered-item  = indent unordered-item-part
@@ -208,16 +208,18 @@ block                   = level-0-block
 ; Section Components
 ; ================================================================================
 
-main-section-header     = level-1-order "." SP key EOL
+main-section-header     = level-1-order DOT 2SP key EOL
 
-subsection-header       = indent level-2-order "." SP key EOL
+subsection-header       = level-2-order SP key EOL
+
+specific-section-header = 1*(indent) HYPHEN SP key EOL
 
 section-header          = main-section-header
                         / subsection-header
 
 main-section-body       = level-1-block
 
-support-section-body    = level-2-block
+support-section-body    = level-1-block
 
 specific-section-body   = level-1-block
                         / level-2-block
@@ -237,9 +239,13 @@ subsection              = subsection-header
                           EOL
                           support-section-body
 
-section                 = section-header
+specific-section        = specific-section-header
                           EOL
-                          section-body
+                          specific-section-body
+
+section                 = main-section
+                        / subsection
+                        / specific-section
 
 section-list            = 1*(section EOL)
 
@@ -248,12 +254,12 @@ section-list            = 1*(section EOL)
 ; Document Markers
 ; ================================================================================
 
-marker-line             = "<" 31"-" ">"
+marker-line             = "<" 31(HYPHEN) ">"
 begin-tag               = "[" SP "BEGIN-CRFCF" SP "]"
-end-tag                 = "[" SP ("END-CRFCF" / "ENDED-CRFCF") SP "]"
+ended-tag               = "[" SP "ENDED-CRFCF" SP "]"
 
 begin-marker            = "|" marker-line begin-tag marker-line "|" EOL
-end-marker              = "|" marker-line end-tag   marker-line "|" EOL
+ended-marker            = "|" marker-line ended-tag marker-line "|" EOL
 
 
 ; ================================================================================
@@ -264,7 +270,7 @@ document                = begin-marker
                           disclaimer
                           section-list
                           *1(footer-notes)
-                          end-marker
+                          ended-marker
 
 disclaimer              = paragraph
 footer-notes            = level-0-block
