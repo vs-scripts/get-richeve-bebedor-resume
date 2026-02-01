@@ -68,10 +68,13 @@ url-word                = scheme COLON 2(SLASH) authority [SLASH path]
 ; Email Word Components
 ; --------------------------------------------------------------------------------
 
-local-part              = alphanumeric-word *(DOT alphanumeric-word)
-domain                  = dot-word
+email-separator         = DOT / HYPHEN
+email-token             = alphanumeric-word *(email-separator alphanumeric-word)
+email-subaddress        = PLUS email-token
+email-part              = email-token
+email-domain            = dot-word
 
-email-word              = local-part AT domain
+email-word              = email-part *1(email-subaddress) AT email-domain
 
 ; --------------------------------------------------------------------------------
 ; Word Set Components
@@ -95,9 +98,9 @@ contained-word-part     = "[" word-part "]"
                         / "<" word-part ">"
                         / "(" word-part ")"
 
-word                    = word-part
-                        / quoted-word-part
+word                    = quoted-word-part
                         / contained-word-part
+                        / word-part
 
 
 ; ================================================================================
