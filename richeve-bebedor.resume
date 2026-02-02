@@ -175,9 +175,9 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
     This section describes professional work history structured as system
     implementation records.
 
-8.1 Senior Backend Developer
+8.1 Senior Backend Developer:
 
-    Staizen (2024–2025)
+    Staizen (2024-2025)
 
     - System Type:
 
@@ -202,9 +202,9 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
         Improved system reliability and feature delivery velocity for enterprise
         planning workflows.
 
-8.2 Senior Backend Developer
+8.2 Senior Backend Developer:
 
-    RevDojo (2023–2024)
+    RevDojo (2023-2024)
 
     - System Type:
 
@@ -228,9 +228,9 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 
         Reduced technical debt and improved service maintainability.
 
-8.3 Full Stack Developer
+8.3 Full Stack Developer:
 
-    Narrasoft (2022–2023)
+    Narrasoft (2022-2023)
 
     - System Type:
 
@@ -254,9 +254,9 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 
         Enabled continuous feature delivery for financial workflow automation.
 
-8.4 Senior Backend Developer
+8.4 Senior Backend Developer:
 
-    Dottystyle Creative (2021–2023)
+    Dottystyle Creative (2021-2023)
 
     - System Type:
 
@@ -282,9 +282,9 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 
         Enabled automated media processing and improved platform scalability.
 
-8.5 Lead Web Developer and System Architect
+8.5 Lead Web Developer and System Architect:
 
-    BIA Jiros Travel and Tours (2015–2023)
+    BIA Jiros Travel and Tours (2015-2023)
 
     - System Type:
 
@@ -315,27 +315,27 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
     This section highlights engineering showcases structured as system
     specifications.
 
-9.1 Distributed Media Processing Pipelines
+9.1 Distributed Media Processing Pipelines:
 
     Designed concurrent media processing services using Node.js worker
     threads and FFmpeg for automated transcoding and metadata extraction.
 
-9.2 Modular API Integration Frameworks
+9.2 Modular API Integration Frameworks:
 
     Developed reusable service patterns for integrating third-party
     platforms with standardized logging, retry logic, and error handling.
 
-9.3 Background Worker Orchestration Systems
+9.3 Background Worker Orchestration Systems:
 
     Built queue-driven worker systems for handling asynchronous and
     high-volume processing workloads.
 
-9.4 Transport Booking System Architecture
+9.4 Transport Booking System Architecture:
 
     Architected scalable backend services and infrastructure for a
     nationwide transport booking platform.
 
-A. Open Source and Tooling Contributions:
+A.  Open Source and Tooling Contributions:
 
     This section describes ecosystem contributions and reusable infrastructure
     development.
@@ -346,13 +346,13 @@ A. Open Source and Tooling Contributions:
       automation, and data processing
     - Emphasis on reusable modules, CLI tools, and backend service helpers
 
-B. System Architecture Philosophy:
+B.  System Architecture Philosophy:
 
     The author favors modular service-oriented design, observable backend
     components, automation-first infrastructure, performance-aware data
     pipelines, and cloud-native scalability.
 
-C. Education:
+C.  Education:
 
     - Bachelor of Science in Computer Science, AMA University (2007 - 2011)
 
