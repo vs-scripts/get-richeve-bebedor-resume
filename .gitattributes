@@ -48,4 +48,4 @@ WEBSITE             text    eol=lf
 *.help              text    eol=lf
 *.todo              text    eol=lf
 *.template          text    eol=lf
-*.resume          text    eol=lf
+*.resume            text    eol=lf
