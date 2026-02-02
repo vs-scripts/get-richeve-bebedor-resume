@@ -67,10 +67,13 @@ UrlWord                 <- Scheme "://" Authority ("/" Path)?
 # Email Word Components
 # --------------------------------------------------------------------------------
 
-LocalPart               <- AlphanumericWord (DOT AlphanumericWord)*
-Domain                  <- DotWord
+EmailSeparator          <- DOT / HYPHEN
+EmailToken              <- AlphanumericWord (EmailSeparator AlphanumericWord)*
+EmailSubaddress         <- PLUS EmailToken
+EmailPart               <- EmailToken
+EmailDomain             <- DotWord
 
-EmailWord               <- LocalPart AT Domain
+EmailWord               <- EmailPart EmailSubaddress? AT EmailDomain
 
 # --------------------------------------------------------------------------------
 # Word Set Components
@@ -94,9 +97,9 @@ ContainedWordPart       <- "[" WordPart "]"
                          / "<" WordPart ">"
                          / "(" WordPart ")"
 
-Word                    <- WordPart
-                         / QuotedWordPart
+Word                    <- QuotedWordPart
                          / ContainedWordPart
+                         / WordPart
 
 
 # ================================================================================
@@ -144,16 +147,16 @@ ListItem                <- KeyValue
                          / Key
                          / Phrase
 
-Level1Order             <- DIGIT
+Level1Order             <- ALPHANUMERIC
 
-Level2Order             <- DIGIT DOT DIGIT
+Level2Order             <- ALPHANUMERIC DOT ALPHANUMERIC
 
 OrderNumber             <- Level1Order
                          / Level2Order
 
 Level1OrderItem         <- Level1Order DOT SP SP ListItem
 
-Level2OrderItem         <- Level2Order DOT SP ListItem
+Level2OrderItem         <- Level2Order SP ListItem
 
 OrderedItem             <- Level1OrderItem
                          / Level2OrderItem
@@ -208,14 +211,16 @@ Block                   <- Level0Block
 
 MainSectionHeader       <- Level1Order DOT SP SP Key EOL
 
-SubsectionHeader        <- Level2Order DOT SP Key EOL
+SubsectionHeader        <- Level2Order SP Key EOL
+
+SpecificSectionHeader   <- Indent+ "-" SP Key EOL
 
 SectionHeader           <- MainSectionHeader
                          / SubsectionHeader
 
-MainSectionBody         <- Level0Block
+MainSectionBody         <- Level1Block
 
-SupportSectionBody      <- Level0Block
+SupportSectionBody      <- Level1Block
 
 SpecificSectionBody     <- Level1Block
                          / Level2Block
@@ -227,9 +232,14 @@ SectionBody             <- MainSectionBody
                          / SupportSectionBody
                          / SpecificSectionBody
 
+SpecificSection         <- SpecificSectionHeader
+                           EOL
+                           SpecificSectionBody
+
 Section                 <- SectionHeader
                            EOL
                            SectionBody
+                         / SpecificSection
 
 SectionList             <- (Section EOL)+
 
@@ -244,11 +254,11 @@ MarkerLine              <- "<" "-" "-" "-" "-" "-" "-" "-" "-" "-" "-"
 
 BeginTag                <- "[" SP "BEGIN-CRFCF" SP "]"
 
-EndTag                  <- "[" SP ("END-CRFCF" / "ENDED-CRFCF") SP "]"
+EndedTag                <- "[" SP "ENDED-CRFCF" SP "]"
 
 BeginMarker             <- "|" MarkerLine BeginTag MarkerLine "|" EOL
 
-EndMarker               <- "|" MarkerLine EndTag MarkerLine "|" EOL
+EndedMarker             <- "|" MarkerLine EndedTag MarkerLine "|" EOL
 
 
 # ================================================================================
@@ -259,7 +269,7 @@ Document                <- BeginMarker
                            Disclaimer
                            SectionList
                            FooterNotes?
-                           EndMarker
+                           EndedMarker
 
 Disclaimer              <- Paragraph
 FooterNotes             <- Level0Block
