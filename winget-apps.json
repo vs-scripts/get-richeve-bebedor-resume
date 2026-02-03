@@ -19,6 +19,11 @@
           "PackageIdentifier": "Microsoft.PowerShell",
           "Version": "7.5.4",
           "Source": "winget"
+        },
+        {
+          "PackageIdentifier": "Python.Python.3.12",
+          "Version": "3.12.6",
+          "Source": "winget"
         }
       ]
     }
