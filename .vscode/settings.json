@@ -26,6 +26,7 @@
         "5LAWS": "text",
         "AUTHOR": "text",
         "CHANGELOG": "text",
+        "CHECKSUM": "text",
         "CONTRIBUTING": "text",
         "CONTRIBUTORS": "text",
         "EMAIL": "text",
