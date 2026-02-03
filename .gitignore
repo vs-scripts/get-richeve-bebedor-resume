@@ -71,6 +71,7 @@
 !scripts/**/*.sh
 !scripts/**/*.bash
 !scripts/**/*.zig
+!scripts/**/*.py
 
 !templates/
 !templates/**/*.template
