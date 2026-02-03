@@ -9,17 +9,17 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 0.  METADATA:
 
     - RFC: RESUME-RFC-000000
-    - GROUP: PROFESSIONAL PROFILE
-    - TITLE: RICHEVE BEBEDOR BACKEND ENGINEER PROFILE
+    - GROUP: PROFESSIONAL RESUME
+    - TITLE: RICHEVE BEBEDOR BACKEND ENGINEER
     - ACRONYM: RBBNG
     - AUTHOR: RICHEVE BEBEDOR <richeve.bebedor+vs-work@gmail.com>
     - CATEGORY: INFORMATIONAL
     - STATUS: DRAFT
     - VERSION: 000000 (0.0.0)
     - CREATED: 2026-01-28
-    - MODIFIED: 2026-02-03
+    - MODIFIED: 2026-02-04
     - REPOSITORY: https://github.com/vs-scripts/get-richeve-bebedor-resume
-    - CHECKSUM: <D5E664B0E49B6CBDE71048C981A3970B01E35EE5FC7C9C01CCA745D39CB10B06>
+    - CHECKSUM: <1878322766FE759D7D9529593662ADAA9403C1CD4125D996A514BB6D8FB7F641>
 
 1.  Summary:
 
@@ -41,18 +41,18 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 3.  Contents:
 
     - METADATA: 009
-    - Summary: 024
-    - Permission: 036
-    - Contents: 041
-    - Career Status: 057
-    - Engineering Principles: 073
-    - Technical Scope Definitions: 084
-    - Core Competencies: 113
-    - Professional Experience: 175
-    - Selected System Implementations: 261
-    - Open Source and Tooling Contributions: 286
-    - System Architecture Philosophy: 297
-    - Education: 303
+    - Summary: 023
+    - Permission: 035
+    - Contents: 039
+    - Career Status: 055
+    - Engineering Principles: 070
+    - Technical Scope Definitions: 080
+    - Core Competencies: 108
+    - Professional Experience: 170
+    - Selected System Implementations: 256
+    - Open Source and Tooling Contributions: 281
+    - System Architecture Philosophy: 292
+    - Education: 298
 
 4.  Career Status:
 
@@ -117,9 +117,10 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 
 7.1 Core Languages:
 
-    - JavaScript (since 2012)
-    - TypeScript
-    - Node.js Runtime Ecosystem
+    - JavaScript Scripting Language (2012-2026 | 14 years)
+    - TypeScript Scripting Language (2022-2026 | 4 years)
+    - Node.js Runtime Ecosystem (2012-2026 | 14 years)
+    - Bash Scripting Language (2012-2026 | 14 years)
 
 7.2 Backend Architecture:
 
@@ -179,7 +180,7 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 
 8.1 Senior Backend Developer:
 
-    Staizen (2024-2025)
+    Staizen (September, 2024-April, 2025 | 8 months)
 
     - System Type:
 
@@ -206,7 +207,7 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 
 8.2 Full Stack Developer:
 
-    Narrasoft (2022-2023)
+    Narrasoft (March, 2022-July, 2023 | 1 year & 5 months)
 
     - System Type:
 
@@ -232,7 +233,7 @@ EMPLOYED TO DETECT AND PREVENT UNAUTHORIZED ALTERATIONS.
 
 8.3 Lead Web Developer and System Architect:
 
-    BIA Jiros Travel and Tours (2015-2023)
+    BIA Jiros Travel and Tours (August, 2015-October, 2023 | 8 years & 3 months)
 
     - System Type:
 
@@ -302,7 +303,9 @@ B.  System Architecture Philosophy:
 
 C.  Education:
 
-    - Bachelor of Science in Computer Science, AMA University (2007 - 2011)
+    - Bachelor of Science in Computer Science
+
+      AMA University (2007 - 2011 | 4 years)
 
       Thesis involved neural network concepts and handwriting analysis using
       object-oriented simulation models.
