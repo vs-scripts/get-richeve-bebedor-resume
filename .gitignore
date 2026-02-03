@@ -46,6 +46,7 @@
 !*.mjs
 !*.json
 !*.resume
+!*.pdf
 
 !.githooks/
 !.githooks/pre-commit
