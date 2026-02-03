@@ -1,24 +1,93 @@
-This is free and unencumbered software released into the public domain.
+|<------------------------------->[ BEGIN-CRFCF ]<------------------------------->|
 
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a compiled
-binary, for any purpose, commercial or non-commercial, and by any
-means.
+NOTICE: UNAUTHORIZED MODIFICATION OF THIS DOCUMENT IS EXPRESSLY PROHIBITED. EDITING
+PRIVILEGES ARE EXCLUSIVELY RESERVED FOR THE AUTHOR, DESIGNATED CONTRIBUTORS, AND
+AUTHORIZED ARTIFICIAL INTELLIGENCE AGENTS. DOCUMENT INTEGRITY IS SECURED BY A
+CRYPTOGRAPHIC CHECKSUM; AUTOMATED VERIFICATION SCRIPTS ARE EMPLOYED TO DETECT AND
+PREVENT UNAUTHORIZED ALTERATIONS.
 
-In jurisdictions that recognize copyright laws, the author or authors
-of this software dedicate any and all copyright interest in the
-software to the public domain. We make this dedication for the benefit
-of the public at large and to the detriment of our heirs and
-successors. We intend this dedication to be an overt act of
-relinquishment in perpetuity of all present and future rights to this
-software under copyright law.
+0.  METADATA:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+    - RFC:      CONCISE-RFC-000000
+    - GROUP:    VS-WORK
+    - TITLE:    PROPRIETARY LICENSE AGREEMENT
+    - ACRONYM:  PRLIA
+    - AUTHOR:   RICHEVE BEBEDOR <richeve.bebedor+vs-work@gmail.com>
+    - CATEGORY: SPECIFICATION
+    - STATUS:   STABLE
+    - VERSION:  000000 (0.0.0)
+    - CREATED:  2026-01-30
+    - CHECKSUM: <CONCISE-RFC-CHECKSUM-SHA-256>
 
-For more information, please refer to <https://unlicense.org>
+1.  Summary:
+
+    This document defines the proprietary license terms for the personal portfolio
+    website of Richeve Bebedor. All rights are reserved by the author. No
+    permission is granted to use, modify, copy, or distribute any part of this
+    repository or website without explicit written consent from the author.
+
+2.  License:
+
+    Copyright (c) 2026 Richeve Bebedor <richeve.bebedor+vs-work@gmail.com>
+
+    ALL RIGHTS RESERVED
+
+    This repository and its contents, including but not limited to source code,
+    documentation, design assets, text, images, and all other materials
+    (collectively, the "richeve-bebedor.github.io" website), are the exclusive
+    property of Richeve Bebedor (the "Author").
+
+    NO PERMISSION IS GRANTED to any person or entity to use, copy, modify, merge,
+    publish, distribute, sublicense, or sell copies of "richeve-bebedor.github.io"
+    website, or to permit persons to whom the Work is furnished to do so, under any
+    circumstances.
+
+    The "richeve-bebedor.github.io" website is provided solely for viewing and
+    reference purposes in connection with the Author's personal portfolio website
+    located at https://richeve-bebedor.github.io
+
+    - RESTRICTIONS:
+
+        - You MUST NOT use any part of this "richeve-bebedor.github.io" website for
+          any purpose.
+        - You MUST NOT copy, reproduce, or duplicate any part of this
+          "richeve-bebedor.github.io" website.
+        - You MUST NOT modify, adapt, or create derivative works from this
+          "richeve-bebedor.github.io" website.
+        - You MUST NOT distribute, publish, or share any part of this
+          "richeve-bebedor.github.io" website.
+        - You MUST NOT use this "richeve-bebedor.github.io" website for commercial
+          or non-commercial purposes.
+        - You MUST NOT remove or alter any copyright notices or attributions.
+
+    - EXCEPTIONS:
+
+        - The Author retains all rights to use, modify, and distribute the
+          "richeve-bebedor.github.io" website.
+        - Authorized contributors explicitly designated by the Author in writing.
+        - Authorized artificial intelligence agents operating under the Author's
+          direction and control.
+
+    - DISCLAIMER:
+
+        THE "richeve-bebedor.github.io" WEBSITE IS PROVIDED "AS IS", WITHOUT
+        WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+        WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+        NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM,
+        DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+        OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE WORK OR THE USE
+        OR OTHER DEALINGS IN THE WORK.
+
+    - ENFORCEMENT:
+
+        Unauthorized use of this "richeve-bebedor.github.io" website may result in
+        legal action. The Author reserves the right to seek all available legal
+        remedies for any violation of these terms.
+
+    - For permissions or inquiries, contact:
+
+        - Richeve Bebedor
+        - Email: richeve.bebedor+vs-work@gmail.com
+        - Website: https://richeve-bebedor.github.io
+
+|<------------------------------->[ ENDED-CRFCF ]<------------------------------->|
