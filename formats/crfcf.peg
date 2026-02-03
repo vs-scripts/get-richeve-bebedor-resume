@@ -61,7 +61,7 @@ Scheme                  <- ALPHA (ALPHA / DIGIT / PLUS / HYPHEN / DOT)*
 Authority               <- AlphanumericWord (DOT AlphanumericWord)*
 Path                    <- SlashWord
 
-UrlWord                 <- Scheme "://" Authority ("/" Path)?
+UrlWord                 <- Scheme COLON SLASH SLASH Authority (SLASH Path)?
 
 # --------------------------------------------------------------------------------
 # Email Word Components
@@ -161,7 +161,7 @@ Level2OrderItem         <- Level2Order SP ListItem
 OrderedItem             <- Level1OrderItem
                          / Level2OrderItem
 
-UnorderedItemPart       <- "-" SP ListItem
+UnorderedItemPart       <- HYPHEN SP ListItem
 
 Level0UnorderedItem     <- UnorderedItemPart
 Level1UnorderedItem     <- Indent UnorderedItemPart
@@ -213,7 +213,7 @@ MainSectionHeader       <- Level1Order DOT SP SP Key EOL
 
 SubsectionHeader        <- Level2Order SP Key EOL
 
-SpecificSectionHeader   <- Indent+ "-" SP Key EOL
+SpecificSectionHeader   <- Indent+ HYPHEN SP Key EOL
 
 SectionHeader           <- MainSectionHeader
                          / SubsectionHeader
@@ -232,13 +232,20 @@ SectionBody             <- MainSectionBody
                          / SupportSectionBody
                          / SpecificSectionBody
 
+MainSection             <- MainSectionHeader
+                           EOL
+                           MainSectionBody
+
+Subsection              <- SubsectionHeader
+                           EOL
+                           SupportSectionBody
+
 SpecificSection         <- SpecificSectionHeader
                            EOL
                            SpecificSectionBody
 
-Section                 <- SectionHeader
-                           EOL
-                           SectionBody
+Section                 <- MainSection
+                         / Subsection
                          / SpecificSection
 
 SectionList             <- (Section EOL)+
